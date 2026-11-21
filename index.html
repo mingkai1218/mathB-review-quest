@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>數學B 第二次段考 複習闖關</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f0e6;--card:#fffdf8;--ink:#1c2540;--muted:#6a7084;--line:#e3dac8;--accent:#e0542b;--accent-d:#b8401d;--blue:#2a6f97;--ok:#23865a;--ok-bg:#e6f4ec;--warn:#b7791f;--warn-bg:#fdf3dc;--bad:#c0392b;--bad-bg:#fbe9e6;--gold:#f0b429;--r:16px}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC",system-ui,sans-serif;font-size:17px;line-height:1.65}
+button{font:inherit;cursor:pointer}
+input{font:inherit}
+i{font-family:"Times New Roman","Noto Serif",serif;font-size:1.08em;padding:0 .04em}
+sup{font-size:.68em;line-height:0}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .15em;font-size:.92em;line-height:1.2}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.ov{text-decoration:overline}
+.wrap{max-width:860px;margin:0 auto;padding:16px 16px 60px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;max-width:860px;margin:0 auto}
+.brand{font-weight:900;letter-spacing:.02em;font-size:1.05rem;display:flex;align-items:center;gap:8px}
+.brand .bm{display:none}
+.brand .logo{width:30px;height:30px;border-radius:9px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:.9rem}
+.chip{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.88rem;color:var(--muted)}
+.chip b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:0 2px 0 rgba(28,37,64,.04)}
+.btn{border:none;border-radius:12px;padding:11px 20px;font-weight:700;background:var(--ink);color:#fff;transition:transform .08s,filter .15s}
+.btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+.btn.accent{background:var(--accent)}.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.small{padding:6px 12px;font-size:.88rem;border-radius:10px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+h1,h2,h3{line-height:1.3;margin:0}
+/* login */
+#login .hero{text-align:center;padding:26px 0 10px}
+#login h1{font-size:2rem;font-weight:900}
+#login .hero p{margin:.4em 0 0;color:var(--muted)}
+.form{max-width:420px;margin:18px auto 0;display:grid;gap:14px}
+.form label{font-weight:700;font-size:.92rem;display:grid;gap:6px}
+.form input,.form select{padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-size:1rem}
+.form input:focus{outline:2px solid var(--blue);border-color:transparent}
+.err{color:var(--bad);font-size:.9rem;min-height:1.3em}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:22px}
+.rule{background:#fff;border:1px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:.88rem;color:var(--muted)}
+.rule b{display:block;color:var(--ink);font-size:.95rem}
+/* map */
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 18px}
+.maptitle{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.maptitle h2{font-size:1.5rem;font-weight:900}
+.path{position:relative;display:grid;gap:16px;margin-top:8px}
+.stage{position:relative;display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;width:88%}
+.stage:nth-child(even){margin-left:12%}
+.stage .num{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:1.6rem;background:var(--ink);color:#fff;box-shadow:inset 0 -4px 0 rgba(0,0,0,.2)}
+.stage.boss .num{background:var(--accent)}
+.stage.cleared .num{background:var(--ok)}
+.stage h3{font-size:1.12rem}
+.stage .sub{font-size:.86rem;color:var(--muted)}
+.stars{color:var(--gold);letter-spacing:2px;font-size:1.05rem}
+.stars .off{color:#d8cfbd}
+.stage.locked{opacity:.55}
+.stage.locked .num{background:#a7a291}
+.lockmsg{font-size:.8rem;color:var(--muted)}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+/* play */
+.playbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.playbar .title{font-weight:900;flex:1;min-width:150px}
+.prog{height:8px;background:#e8e0cf;border-radius:99px;overflow:hidden;margin:0 0 16px}
+.prog>div{height:100%;background:var(--accent);transition:width .35s}
+.hearts{font-size:1.25rem;letter-spacing:2px}
+.hearts .lost{filter:grayscale(1);opacity:.35}
+.hearts .pop{animation:pop .6s}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.6)}100%{transform:scale(1)}}
+.score{font-weight:900;color:var(--accent)}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:.78rem;font-weight:700;padding:3px 10px;border-radius:999px;background:#eef3f7;color:var(--blue)}
+.tag.src{background:#fbeee7;color:var(--accent-d)}
+.qnum{font-weight:900;color:var(--muted);font-size:.9rem;margin-bottom:6px}
+.prompt{font-size:1.18rem;font-weight:500;margin-bottom:18px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink);font-size:1.05rem}
+.opt:hover:not(:disabled){border-color:var(--blue);background:#f6fafc}
+.opt .lt{flex:none;width:30px;height:30px;border-radius:8px;background:#f1ece1;display:grid;place-items:center;font-weight:900;font-size:.9rem}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg);text-decoration:line-through;text-decoration-color:var(--bad)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt:disabled{cursor:default}
+.ans{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.ans input{width:110px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;font-size:1.1rem;text-align:center;background:#fff}
+.ans input:focus{outline:2px solid var(--blue);border-color:transparent}
+.ans input.bad{border-color:var(--bad)}
+.ans .lbl2{font-weight:700}
+.lineans{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:1.2rem}
+.lineans input{width:76px}
+.toggle{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 14px;font-weight:700;color:var(--muted)}
+.toggle.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tip{font-size:.84rem;color:var(--muted);margin-top:10px}
+.submitrow{display:flex;gap:10px;margin-top:18px;align-items:center;flex-wrap:wrap}
+.fb{margin-top:18px;border-radius:14px;padding:16px 18px;animation:fadein .25s}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fb h4{margin:0 0 6px;font-size:1.08rem}
+.fb.ok{background:var(--ok-bg);border:1.5px solid #b7dec8}.fb.ok h4{color:var(--ok)}
+.fb.warn{background:var(--warn-bg);border:1.5px solid #f0d79d}.fb.warn h4{color:var(--warn)}
+.fb.bad{background:var(--bad-bg);border:1.5px solid #f1c2ba}.fb.bad h4{color:var(--bad)}
+.box{background:#fff;border-radius:12px;padding:12px 14px;margin-top:10px;border:1px solid rgba(0,0,0,.06)}
+.box .k{font-size:.8rem;font-weight:900;color:var(--muted);letter-spacing:.05em;margin-bottom:4px}
+.ref{font-size:.85rem;color:var(--blue);margin-top:8px;font-weight:500}
+.plot{width:100%;max-width:340px;display:block;margin:10px auto 0;color:var(--ink)}
+.plot .gr{stroke:#eee6d6;stroke-width:1}
+.plot .ax{stroke:#555c70;stroke-width:1.4}
+.plot .axl{font-size:12px;fill:#555c70;font-style:italic;font-family:serif}
+.plot .curve{fill:none;stroke:var(--blue);stroke-width:2.6}
+.plot .ln{stroke-width:2.4}.plot .ln0{stroke:var(--accent)}.plot .ln1{stroke:#8a93a8;stroke-dasharray:6 5}
+.plot .pt{fill:var(--ink)}
+.plot .lbl{font-size:12px;fill:var(--ink);font-weight:700}
+.plot .poly{fill:rgba(42,111,151,.1);stroke:#8a93a8;stroke-width:1.2}
+.plot .shade{stroke:var(--accent);stroke-width:6;stroke-linecap:round;opacity:.8}
+.plot .dotc{fill:var(--accent)}.plot .doto{fill:#fff;stroke:var(--accent);stroke-width:2.2}
+/* result */
+.big{font-size:2.1rem;font-weight:900;text-align:center}
+.bigstars{text-align:center;font-size:2.4rem;letter-spacing:6px;color:var(--gold)}
+.bigstars .off{color:#ddd3c0}
+.sumgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.sumgrid div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.sumgrid b{display:block;font-size:1.5rem}
+.rlist{display:grid;gap:8px;margin-top:10px}
+.minis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}.mini{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px}.mini .cap{text-align:center;font-weight:700;font-size:.92rem}.mini .plot{margin-top:0}
+.ritem{border:1px solid var(--line);border-radius:12px;background:#fff}
+.ritem summary{list-style:none;cursor:pointer;padding:10px 14px;display:flex;gap:10px;align-items:center}
+.ritem summary::-webkit-details-marker{display:none}
+.ritem .ic{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;font-size:.8rem;flex:none}
+.ic.first{background:var(--ok)}.ic.second{background:var(--warn)}.ic.wrong{background:var(--bad)}
+.ritem .body{padding:0 14px 14px;border-top:1px dashed var(--line)}
+.center{text-align:center}
+.btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+textarea.rec{width:100%;min-height:220px;border:1.5px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:.92rem;background:#fff}
+.wlist{display:grid;gap:8px;margin:14px 0}
+.witem{display:flex;justify-content:space-between;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.modal{position:fixed;inset:0;background:rgba(20,25,40,.45);display:grid;place-items:center;z-index:50;padding:16px}
+.modal .card{max-width:380px;width:100%}
+.confetti{position:fixed;top:-20px;width:9px;height:14px;z-index:60;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+table.ctab{border-collapse:collapse;width:100%;font-size:.88rem;margin-top:8px;background:#fff}table.ctab td,table.ctab th{border:1px solid var(--line);padding:6px 8px;text-align:center;white-space:nowrap}table.ctab th{background:#f1ece1}
+footer{text-align:center;font-size:.8rem;color:var(--muted);padding:20px}
+@media (max-width:600px){
+  html,body{font-size:16px}
+  .stage{width:100%;grid-template-columns:52px 1fr;padding:14px}
+  .stage:nth-child(even){margin-left:0}
+  .stage .num{width:52px;height:52px;font-size:1.3rem}
+  .stage .act{grid-column:1/-1}
+  .stage .act .btn{width:100%}
+  .card{padding:16px}
+  .prompt{font-size:1.08rem}
+  #login h1{font-size:1.6rem}
+  .brand .bt{display:none}
+  .brand .bm{display:inline}
+  .playbar .title{order:5;flex-basis:100%;font-size:.95rem}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo">B</span><span class="bt">數學闖關｜直線與二次函數</span><span class="bm">數學B 闖關</span></div>
+  <div id="userchip" class="chip hidden"></div>
+</header>
+
+<main class="wrap">
+  <!-- 登入 -->
+  <section id="login">
+    <div class="hero">
+      <h1>第二次段考 複習闖關</h1>
+      <p>115 學年度第 1 學期・數學 B 第一冊 第 2 章</p>
+    </div>
+    <div class="card">
+      <form class="form" id="loginForm" autocomplete="off">
+        <label>班級
+          <input id="fCls" list="clsList" placeholder="例如：畜保一" maxlength="12">
+          <datalist id="clsList"><option value="畜保一"><option value="室設一"></datalist>
+        </label>
+        <label>座號<input id="fSeat" inputmode="numeric" placeholder="例如：12" maxlength="3"></label>
+        <label>姓名<input id="fName" placeholder="請輸入姓名" maxlength="12"></label>
+        <div class="err" id="loginErr"></div>
+        <button class="btn accent" type="submit">進入遊戲 →</button>
+        <div class="muted" style="font-size:.8rem;text-align:center">闖關紀錄存在這台裝置的瀏覽器裡，換裝置要重新開始。</div>
+      </form>
+      <div class="rules">
+        <div class="rule"><b>🎲 順序每次不同</b>題目順序和選項位置每次都會重新打亂。</div>
+        <div class="rule"><b>💡 答錯有提示</b>第一次答錯會給引導，可以再試一次。</div>
+        <div class="rule"><b>📖 看懂詳解</b>第二次答錯會看到完整解法和圖形。</div>
+        <div class="rule"><b>❤️ 三顆心</b>心用完就闖關失敗，題目重新洗牌再挑戰。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 地圖 -->
+  <section id="map" class="hidden">
+    <div class="maptitle"><h2 id="hello">闖關地圖</h2><button class="btn ghost small" id="logoutBtn">登出／換人</button></div>
+    <div class="stats" id="stats"></div>
+    <div class="path" id="path"></div>
+    <div class="tools">
+      <button class="btn" id="wrongBtn">📕 錯題本</button>
+      <button class="btn ghost" id="recBtn">📋 我的紀錄</button>
+      <span id="formSlot"></span>
+      <button class="btn ghost hidden" id="checkBtn">🔍 驗證學生紀錄（老師用）</button>
+    </div>
+  </section>
+
+  <!-- 作答 -->
+  <section id="play" class="hidden">
+    <div class="playbar">
+      <button class="btn ghost small" id="quitBtn">← 離開</button>
+      <div class="title" id="pTitle"></div>
+      <div class="hearts" id="hearts"></div>
+      <div class="score" id="pScore"></div>
+    </div>
+    <div class="prog"><div id="progBar"></div></div>
+    <div class="card" id="qcard"></div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="result" class="hidden"><div class="card" id="rcard"></div></section>
+
+  <!-- 錯題本 -->
+  <section id="wrongbook" class="hidden"><div class="card" id="wcard"></div></section>
+
+  <!-- 老師驗證 -->
+  <section id="check" class="hidden"><div class="card" id="chkcard"></div></section>
+  <!-- 紀錄 -->
+  <section id="record" class="hidden"><div class="card" id="reccard"></div></section>
+</main>
+<footer>提示與詳解對應數學 B 第一冊課本 2-1～2-4。</footer>
+<div id="modal" class="modal hidden"><div class="card" id="modalCard"></div></div>
+
+<script>
+/* ===== 數學工具 ===== */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const RNZ=(a,b)=>{let v;do{v=R(a,b)}while(v===0);return v};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const chance=p=>Math.random()<p;
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a}
+class F{
+  constructor(n,d=1){if(d===0)throw new Error('d0');if(d<0){n=-n;d=-d}const g=gcd(n,d)||1;this.n=n/g+0;this.d=d/g}
+  static of(x){return x instanceof F?x:new F(x,1)}
+  add(o){o=F.of(o);return new F(this.n*o.d+o.n*this.d,this.d*o.d)}
+  sub(o){o=F.of(o);return new F(this.n*o.d-o.n*this.d,this.d*o.d)}
+  mul(o){o=F.of(o);return new F(this.n*o.n,this.d*o.d)}
+  div(o){o=F.of(o);return new F(this.n*o.d,this.d*o.n)}
+  neg(){return new F(-this.n,this.d)}
+  eq(o){o=F.of(o);return this.n===o.n&&this.d===o.d}
+  val(){return this.n/this.d}
+}
+const MI='−';
+const X='<i>x</i>',Y='<i>y</i>',X2='<i>x</i><sup>2</sup>';
+const V=v=>`<i>${v}</i>`;
+function fr(n,d){return `<span class="fr"><span>${n}</span><span>${d}</span></span>`}
+function nh(x){x=F.of(x);const s=x.n<0?MI:'';const a=Math.abs(x.n);return x.d===1?s+a:s+fr(a,x.d)}
+function nt(x){x=F.of(x);return (x.n<0?'-':'')+Math.abs(x.n)+(x.d===1?'':'/'+x.d)}
+const par=x=>F.of(x).n<0?`(${nh(x)})`:nh(x);
+const pt=(x,y)=>`(${nh(x)}, ${nh(y)})`;
+function terms(list){let out='',first=true;
+  for(const [c0,v] of list){const c=F.of(c0);if(c.n===0)continue;const neg=c.n<0;const a=new F(Math.abs(c.n),c.d);
+    const body=(v&&a.n===1&&a.d===1)?v:nh(a)+v;
+    if(first){out+=(neg?MI:'')+body;first=false}else out+=(neg?` ${MI} `:' + ')+body}
+  return first?'0':out}
+const lineH=(a,b,c)=>terms([[a,X],[b,Y],[c,'']])+' = 0';
+function normL(a,b,c){const g=gcd(gcd(a,b),c)||1;a/=g;b/=g;c/=g;if(a<0||(a===0&&b<0)){a=-a;b=-b;c=-c}return [a+0,b+0,c+0]}
+const LH=(a,b,c)=>lineH(...normL(a,b,c));
+const lkey=(a,b,c)=>normL(a,b,c).join(',');
+const polyH=(a,b,c)=>terms([[a,X2],[b,X],[c,'']]);
+const minusH=(v,q)=>{q=F.of(q);return q.n===0?v:(q.n>0?`${v} ${MI} ${nh(q)}`:`${v} + ${nh(q.neg())}`)};
+const constH=c=>{c=F.of(c);return c.n===0?'':(c.n<0?` ${MI} ${nh(c.neg())}`:` + ${nh(c)}`)};
+const coefH=a=>a===1?'':a===-1?MI:nh(a);
+const thru=(x1,y1,x2,y2)=>[y2-y1,-(x2-x1),(x2-x1)*y1-(y2-y1)*x1];
+// 點斜式 y-q = (n/d)(x-p) → n x - d y + (d q - n p) = 0
+const ptSlopeL=(p,q,m)=>{m=F.of(m);return [m.n,-m.d,m.d*q-m.n*p]};
+const ov=s=>`<span class="ov">${s}</span>`;
+const REL={'<':'&lt;','<=':'≤','>':'&gt;','>=':'≥'};
+const FLIP={'<':'>','<=':'>=','>':'<','>=':'<='};
+
+/* ===== 圖形 ===== */
+function axesBox(xmin,xmax,ymin,ymax,W,H){
+  const pad=22;const sx=x=>pad+(x-xmin)/(xmax-xmin)*(W-2*pad);const sy=y=>H-pad-(y-ymin)/(ymax-ymin)*(H-2*pad);
+  let g='';
+  const xs=xmax-xmin,ys=ymax-ymin;
+  const stepX=xs<=24?1:Math.ceil(xs/20),stepY=ys<=24?1:Math.ceil(ys/16);
+  for(let x=Math.ceil(xmin/stepX)*stepX;x<=xmax;x+=stepX)g+=`<line x1="${sx(x)}" y1="${pad}" x2="${sx(x)}" y2="${H-pad}" class="gr"/>`;
+  for(let y=Math.ceil(ymin/stepY)*stepY;y<=ymax;y+=stepY)g+=`<line x1="${pad}" y1="${sy(y)}" x2="${W-pad}" y2="${sy(y)}" class="gr"/>`;
+  if(ymin<=0&&ymax>=0)g+=`<line x1="${pad-6}" y1="${sy(0)}" x2="${W-pad+8}" y2="${sy(0)}" class="ax" marker-end="url(#ar)"/><text x="${W-pad+4}" y="${sy(0)-6}" class="axl">x</text>`;
+  if(xmin<=0&&xmax>=0)g+=`<line x1="${sx(0)}" y1="${H-pad+6}" x2="${sx(0)}" y2="${pad-8}" class="ax" marker-end="url(#ar)"/><text x="${sx(0)+6}" y="${pad-4}" class="axl">y</text><text x="${sx(0)-12}" y="${sy(0)+14}" class="axl">O</text>`;
+  const defs=`<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="currentColor"/></marker><clipPath id="cp"><rect x="${pad}" y="${pad}" width="${W-2*pad}" height="${H-2*pad}"/></clipPath></defs>`;
+  return {sx,sy,g,defs,pad};
+}
+function parabolaSVG(a,b,c,opt={}){
+  a=F.of(a).val();b=F.of(b).val();c=F.of(c).val();
+  const W=320,H=230;const h=-b/(2*a);const D=b*b-4*a*c;
+  let xmin=h-3,xmax=h+3;
+  if(D>=0){const r1=(-b-Math.sqrt(D))/(2*a),r2=(-b+Math.sqrt(D))/(2*a);xmin=Math.min(xmin,r1-1.5,r2-1.5);xmax=Math.max(xmax,r1+1.5,r2+1.5)}
+  xmin=Math.floor(Math.min(xmin,-1));xmax=Math.ceil(Math.max(xmax,1));
+  const f=x=>a*x*x+b*x+c;const N=160;let pts=[];let ymin=0,ymax=0;
+  for(let i=0;i<=N;i++){const x=xmin+(xmax-xmin)*i/N;const y=f(x);pts.push([x,y]);ymin=Math.min(ymin,y);ymax=Math.max(ymax,y)}
+  const cap=Math.max(Math.abs(f(h))*2.2,8);ymin=Math.max(ymin,-cap);ymax=Math.min(ymax,cap);
+  const py=(ymax-ymin)*0.08;ymin=Math.floor(ymin-py);ymax=Math.ceil(ymax+py);
+  const B=axesBox(xmin,xmax,ymin,ymax,W,H);
+  let s=`<svg viewBox="0 0 ${W} ${H}" class="plot">${B.defs}${B.g}`;
+  if(opt.shade){const y0=B.sy(0);for(const sg of opt.shade){const x1=sg.from===-Infinity?xmin:sg.from,x2=sg.to===Infinity?xmax:sg.to;
+      s+=`<line x1="${B.sx(x1)}" y1="${y0}" x2="${B.sx(x2)}" y2="${y0}" class="shade"/>`;}
+    for(const sg of opt.shade){for(const [x,inc] of [[sg.from,sg.incFrom],[sg.to,sg.incTo]]){if(!isFinite(x))continue;s+=`<circle cx="${B.sx(x)}" cy="${y0}" r="5" class="${inc?'dotc':'doto'}"/>`}}}
+  if(opt.holes)for(const x of opt.holes)s+=`<circle cx="${B.sx(x)}" cy="${B.sy(0)}" r="5" class="doto"/>`;
+  s+=`<path clip-path="url(#cp)" class="curve" d="${pts.map((p,i)=>(i?'L':'M')+B.sx(p[0]).toFixed(1)+','+B.sy(Math.max(Math.min(p[1],ymax+50),ymin-50)).toFixed(1)).join('')}"/>`;
+  for(const l of (opt.labels||[])){s+=`<circle cx="${B.sx(l.x)}" cy="${B.sy(l.y)}" r="3.5" class="pt"/><text x="${B.sx(l.x)+6}" y="${B.sy(l.y)+(l.dy||-6)}" class="lbl">${l.t}</text>`}
+  return s+'</svg>';
+}
+function lineSVG(opt){
+  const P=opt.points||[];let xs=P.map(p=>p.x),ys=P.map(p=>p.y);
+  let xmin=Math.min(-2,...xs)-2,xmax=Math.max(2,...xs)+2,ymin=Math.min(-2,...ys)-2,ymax=Math.max(2,...ys)+2;
+  const W=320,H=Math.round(320*(ymax-ymin)/(xmax-xmin));const HH=Math.max(200,Math.min(380,H));
+  const B=axesBox(xmin,xmax,ymin,ymax,W,HH);
+  let s=`<svg viewBox="0 0 ${W} ${HH}" class="plot">${B.defs}${B.g}`;
+  for(const pg of (opt.polys||[]))s+=`<polygon points="${pg.map(p=>B.sx(p.x)+','+B.sy(p.y)).join(' ')}" class="poly"/>`;
+  (opt.lines||[]).forEach((L,i)=>{const [a,b,c]=L.l;let x1,y1,x2,y2;
+    if(b!==0){x1=xmin-1;x2=xmax+1;y1=-(a*x1+c)/b;y2=-(a*x2+c)/b}else{x1=x2=-c/a;y1=ymin-1;y2=ymax+1}
+    s+=`<line clip-path="url(#cp)" x1="${B.sx(x1)}" y1="${B.sy(y1)}" x2="${B.sx(x2)}" y2="${B.sy(y2)}" class="ln ln${L.cls||i}"/>`});
+  for(const p of P){s+=`<circle cx="${B.sx(p.x)}" cy="${B.sy(p.y)}" r="4" class="pt"/><text x="${B.sx(p.x)+6}" y="${B.sy(p.y)-7}" class="lbl">${p.t||''}</text>`}
+  return s+'</svg>';
+}
+
+/* ===== 選項工具 ===== */
+function buildChoices(correct,cands,filler){
+  const seen=new Set([correct.k]);const out=[];
+  for(const c of cands){if(out.length>=3)break;if(!seen.has(c.k)){seen.add(c.k);out.push(c)}}
+  let t=0;while(out.length<3&&t++<200){const c=filler();if(!seen.has(c.k)){seen.add(c.k);out.push(c)}}
+  const all=shuffle([correct,...out]);return {options:all.map(o=>o.h),answer:all.indexOf(correct)};
+}
+const LC=(l)=>({k:lkey(...l),h:LH(...l)});
+const NC=(x)=>({k:'n'+nt(x),h:nh(x)});
+
+/* ===== 參考課本 ===== */
+const REF={
+  s21a:'課本 2-1 一、直線的斜率定義',s21b:'課本 2-1 二、平行與垂直',s22a:'課本 2-2 一、由直線方程式看斜率',
+  s22b:'課本 2-2 二、直線方程式求法（點斜式、斜截式、截距式）',s22c:'課本 2-2 三、點與直線的距離',
+  s23b:'課本 2-3 二、函數圖形（y = ax² 的圖形）',s23c:'課本 2-3 三、配方法',
+  s24a:'課本 2-4 一、二次函數圖形與 x 軸相交的情形',s24b:'課本 2-4 二、二次函數與 x 軸的交點',s24c:'課本 2-4 三、一元二次不等式'
+};
+
+/* ===== 題目模板 ===== */
+const T={};
+// ---------- 關卡 1 ----------
+T.slopeEq={name:'由直線方程式求斜率',gen(v=0){
+  const O=[[3,2,6],[0,3,2],[5,1,2],[1,0,5]];let a,b,c;
+  if(true)[a,b,c]=O[v];else{const t=Math.random();
+    if(t<.65){a=RNZ(-6,6);b=RNZ(-6,6);c=R(-9,9)}else if(t<.82){a=0;b=RNZ(-5,5);c=RNZ(-9,9)}else{a=RNZ(-5,5);b=0;c=RNZ(-9,9)}}
+  const ans=b===0?'none':new F(-a,b);let sol;
+  if(b===0)sol=`這條直線沒有 ${Y} 項（b = 0），整理成 ${X} = ${nh(new F(-c,a))}，是一條<b>鉛直線</b>，所以斜率<b>不存在</b>。`;
+  else if(a===0)sol=`這條直線沒有 ${X} 項（a = 0），整理成 ${Y} = ${nh(new F(-c,b))}，是一條<b>水平線</b>，所以斜率 = <b>0</b>。`;
+  else sol=`a = ${nh(a)}，b = ${nh(b)}<br>m = ${MI}${fr('a','b')} = ${MI}${fr(nh(a),nh(b))} = <b>${nh(ans)}</b>`;
+  return {source:'試卷 填充 1',prompt:`求直線 ${lineH(a,b,c)} 的斜率。`,type:'num',allowNone:true,answer:ans,
+    hint:`直線 a${X} + b${Y} + c = 0 的斜率是 m = ${MI}${fr('a','b')}（${X} 係數 ÷ ${Y} 係數，再加負號）。<br>・b = 0（沒有 ${Y}）→ 鉛直線，斜率<b>不存在</b><br>・a = 0（沒有 ${X}）→ 水平線，斜率為 0`,
+    sol,ref:REF.s22a,meta:{a,b,c}}}};
+T.slope2pt={name:'兩點求斜率',gen(){
+  let x1=R(-6,6),y1=R(-6,6),x2,y2;
+  if(chance(.15)){x2=x1;do{y2=R(-6,6)}while(y2===y1)}else{do{x2=R(-6,6);y2=R(-6,6)}while(x2===x1)}
+  const ans=x2===x1?'none':new F(y2-y1,x2-x1);
+  const sol=x2===x1?`A、B 兩點的 ${X} 坐標都是 ${nh(x1)}，直線垂直於 ${X} 軸（鉛直線），分母會是 0，所以斜率<b>不存在</b>。`
+    :`m = ${fr(`${V('y')}<sub>2</sub> ${MI} ${V('y')}<sub>1</sub>`,`${V('x')}<sub>2</sub> ${MI} ${V('x')}<sub>1</sub>`)} = ${fr(`${nh(y2)} ${MI} ${par(y1)}`,`${nh(x2)} ${MI} ${par(x1)}`)} = ${fr(nh(y2-y1),nh(x2-x1))} = <b>${nh(ans)}</b>`;
+  return {source:'課本 2-1 例題（試卷單選 1 會用到）',prompt:`求通過 A${pt(x1,y1)}、B${pt(x2,y2)} 兩點的直線斜率。`,type:'num',allowNone:true,answer:ans,
+    hint:`兩點斜率公式：m = ${fr('<i>y</i><sub>2</sub> − <i>y</i><sub>1</sub>','<i>x</i><sub>2</sub> − <i>x</i><sub>1</sub>')}（縱坐標的差 ÷ 橫坐標的差，前後順序要一致）。<br>如果兩點的 ${X} 坐標一樣，斜率不存在。`,
+    sol,ref:REF.s21a,meta:{x1,y1,x2,y2}}}};
+function pickBase(){let a,b;do{a=RNZ(-5,5);b=RNZ(-5,5)}while(gcd(a,b)!==1||Math.abs(a)===Math.abs(b));if(a<0){a=-a;b=-b}return [a,b,RNZ(-9,9)]}
+function parSol(a,b,p,q,k){return `平行 → 斜率相同，${X}、${Y} 係數照抄。<br>設所求直線為 ${terms([[a,X],[b,Y]])} + k = 0<br>代入 ${pt(p,q)}：${nh(a)}×${par(p)} + ${par(b)}×${par(q)} + k = 0 → k = ${nh(k)}<br>所求直線：<b>${LH(a,b,k)}</b>`}
+function perpSol(a,b,p,q,k){return `垂直 → 斜率相乘 = ${MI}1。把 ${X}、${Y} 係數對調，其中一個變號。<br>設所求直線為 ${terms([[b,X],[-a,Y]])} + k = 0<br>代入 ${pt(p,q)}：${nh(b)}×${par(p)} ${MI} ${par(a)}×${par(q)} + k = 0 → k = ${nh(k)}<br>所求直線：<b>${LH(b,-a,k)}</b>`}
+const HINT_PAR=`<b>平行的兩直線斜率相同。</b><br>小技巧：和 a${X} + b${Y} + c = 0 平行的直線，可以設成 <b>a${X} + b${Y} + k = 0</b>（係數不變），再把點代進去求 k。`;
+const HINT_PERP=`<b>垂直的兩直線斜率相乘 = ${MI}1。</b><br>小技巧：和 a${X} + b${Y} + c = 0 垂直的直線，可以設成 <b>b${X} ${MI} a${Y} + k = 0</b>（係數對調、其中一個變號），再把點代進去求 k。`;
+T.parallel={name:'過定點的平行線',gen(){
+  let a,b,c,p,q;if(true){a=1;b=-2;c=7;p=0;q=0}else{[a,b,c]=pickBase();p=R(-5,5);q=R(-5,5)}
+  const k=-(a*p+b*q);const cor=LC([a,b,k]);
+  const {options,answer}=buildChoices(cor,[LC([b,-a,-(b*p-a*q)]),LC([b,a,-(b*p+a*q)]),LC([a,b,a*p+b*q]),LC([a,-b,-(a*p-b*q)])],()=>LC([a,b,k+RNZ(-6,6)]));
+  const P=p===0&&q===0?'原點 (0, 0)':`點 P${pt(p,q)}`;
+  return {source:'試卷 單選 3',prompt:`求與直線 ${lineH(a,b,c)} 平行，且通過${P}的直線方程式。`,type:'choice',options,answer,
+    hint:HINT_PAR,sol:parSol(a,b,p,q,k),ref:REF.s21b,
+    solFig:lineSVG({lines:[{l:[a,b,c],cls:1},{l:[a,b,k],cls:0}],points:[{x:p,y:q,t:'P'}]}),meta:{a,b,c,p,q,line:[a,b,k]}}}};
+T.perp={name:'過定點的垂直線',gen(){
+  let a,b,c,p,q;if(true){a=1;b=-2;c=7;p=5;q=1}else{[a,b,c]=pickBase();p=R(-5,5);q=R(-5,5)}
+  const k=-(b*p-a*q);const cor=LC([b,-a,k]);
+  const {options,answer}=buildChoices(cor,[LC([a,b,-(a*p+b*q)]),LC([b,-a,-k]),LC([b,a,-(b*p+a*q)]),LC([a,-b,-(a*p-b*q)])],()=>LC([b,-a,k+RNZ(-6,6)]));
+  return {source:'試卷 單選 2',prompt:`求與直線 ${lineH(a,b,c)} 垂直，且通過點 P${pt(p,q)} 的直線方程式。`,type:'choice',options,answer,
+    hint:HINT_PERP,sol:perpSol(a,b,p,q,k),ref:REF.s21b,
+    solFig:lineSVG({lines:[{l:[a,b,c],cls:1},{l:[b,-a,k],cls:0}],points:[{x:p,y:q,t:'P'}]}),meta:{a,b,c,p,q,line:[b,-a,k]}}}};
+T.paraPerpCalc={name:'平行／垂直線（自己寫方程式）',gen(v='par'){
+  let a,b,c,p,q;if(true){a=2;b=1;c=5;p=1;q=2}else{[a,b,c]=pickBase();p=R(-4,4);q=R(-4,4)}
+  const mode=v;let ans,sol,hint;
+  if(mode==='par'){const k=-(a*p+b*q);ans=[a,b,k];sol=parSol(a,b,p,q,k);hint=HINT_PAR}else{const k=-(b*p-a*q);ans=[b,-a,k];sol=perpSol(a,b,p,q,k);hint=HINT_PERP}
+  return {source:'試卷 計算 1',prompt:`已知直線 L：${lineH(a,b,c)}，求與 L <b>${mode==='par'?'平行':'垂直'}</b>且通過點 ${pt(p,q)} 的直線方程式。`,type:'line',answer:ans,
+    hint,sol,ref:REF.s21b,solFig:lineSVG({lines:[{l:[a,b,c],cls:1},{l:ans,cls:0}],points:[{x:p,y:q,t:''}]}),meta:{p,q}}}};
+
+// ---------- 關卡 2 ----------
+function randSlope(){return chance(.7)?new F(RNZ(-4,4)):new F(...pick([[1,2],[-1,2],[2,3],[-2,3],[3,2],[-3,2],[-1,3],[3,4]]))}
+function ptSlopeSol(p,q,m,pre=''){const L=ptSlopeL(p,q,m);m=F.of(m);
+  return `${pre}點斜式：${minusH(Y,q)} = ${nh(m)}(${minusH(X,p)})${m.d>1?`<br>兩邊同乘 ${m.d}，整理`:'<br>展開、移項整理'}得 <b>${LH(...L)}</b>`}
+const HINT_PS=`<b>點斜式</b>：通過點 (${X}<sub>0</sub>, ${Y}<sub>0</sub>)、斜率 m 的直線為<br>${Y} ${MI} ${Y}<sub>0</sub> = m(${X} ${MI} ${X}<sub>0</sub>)<br>寫出來之後，移項整理成 a${X} + b${Y} + c = 0。`;
+T.ptSlope={name:'點斜式',gen(){
+  let p,q,m;if(true){p=-5;q=3;m=new F(2)}else{p=R(-6,6);q=R(-6,6);m=randSlope()}
+  return {source:'試卷 填充 2',prompt:`求通過點 ${pt(p,q)} 且斜率為 ${nh(m)} 的直線方程式。`,type:'line',answer:ptSlopeL(p,q,m),
+    hint:HINT_PS,sol:ptSlopeSol(p,q,m),ref:REF.s22b,meta:{p,q,m:nt(m)}}}};
+T.special={name:'鉛直線與水平線',gen(){
+  let p,q,kind;if(true){p=-3;q=-5;kind='none'}else{p=RNZ(-7,7);q=RNZ(-7,7);kind=chance(.6)?'none':'zero'}
+  const ans=kind==='none'?[1,0,-p]:[0,1,-q];
+  const sol=kind==='none'?`斜率不存在 → 鉛直線，直線上每一點的 ${X} 坐標都等於 ${nh(p)}。<br>所以直線是 ${X} = ${nh(p)}，也就是 <b>${LH(...ans)}</b>`
+    :`斜率為 0 → 水平線，直線上每一點的 ${Y} 坐標都等於 ${nh(q)}。<br>所以直線是 ${Y} = ${nh(q)}，也就是 <b>${LH(...ans)}</b>`;
+  return {source:'試卷 填充 3',prompt:`求通過點 ${pt(p,q)} 且斜率${kind==='none'?'<b>不存在</b>':'為 <b>0</b>'}的直線方程式。`,type:'line',answer:ans,
+    hint:`・斜率<b>不存在</b>的直線是<b>鉛直線</b>：${X} = ${X}<sub>0</sub><br>・斜率為 0 的直線是<b>水平線</b>：${Y} = ${Y}<sub>0</sub><br>（${X} = ${MI}2 可以輸入成 1${X} + 0${Y} + 2 = 0）`,
+    sol,ref:REF.s22b,meta:{p,q}}}};
+T.slopeXint={name:'斜率＋x 截距',gen(){
+  let m,a;if(true){m=new F(-2);a=3}else{m=chance(.8)?new F(RNZ(-4,4)):randSlope();a=RNZ(-6,6)}
+  const L=ptSlopeL(a,0,m);
+  return {source:'試卷 填充 5',prompt:`求斜率為 ${nh(m)}、${X} 截距為 ${nh(a)} 的直線方程式。`,type:'line',answer:L,
+    hint:`${X} 截距為 a，代表直線通過點 <b>(a, 0)</b>（和 ${X} 軸的交點）。<br>知道一個點和斜率，就用點斜式。`,
+    sol:ptSlopeSol(a,0,m,`${X} 截距為 ${nh(a)} → 直線過 ${pt(a,0)}<br>`),ref:REF.s22b,meta:{line:L}}}};
+T.slopeYint={name:'斜截式',gen(){
+  let m,b;if(true){m=new F(-1);b=3}else{m=randSlope();b=RNZ(-7,7)}
+  const L=ptSlopeL(0,b,m);
+  return {source:'試卷 填充 6',prompt:`求斜率為 ${nh(m)}、${Y} 截距為 ${nh(b)} 的直線方程式。`,type:'line',answer:L,
+    hint:`<b>斜截式</b>：斜率 m、${Y} 截距 b 的直線為 ${Y} = m${X} + b。<br>（${Y} 截距為 b 就是通過點 (0, b)）`,
+    sol:`斜截式：${Y} = ${terms([[m,X],[b,'']])}${m.d>1?`<br>兩邊同乘 ${m.d}，整理`:'<br>移項整理'}得 <b>${LH(...L)}</b>`,ref:REF.s22b,meta:{line:L}}}};
+T.intercepts2={name:'截距式',gen(){
+  let a,b;if(true){a=-3;b=2}else{do{a=RNZ(-6,6);b=RNZ(-6,6)}while(Math.abs(a)===Math.abs(b)&&chance(.7))}
+  const L=[b,a,-a*b];
+  return {source:'試卷 填充 7',prompt:`求 ${X} 截距為 ${nh(a)}、${Y} 截距為 ${nh(b)} 的直線方程式。`,type:'line',answer:L,
+    hint:`<b>截距式</b>：${X} 截距 a、${Y} 截距 b 的直線為 ${fr(X,'a')} + ${fr(Y,'b')} = 1。<br>也可以想成通過 (a, 0) 和 (0, b) 兩點，用兩點求斜率再用點斜式。`,
+    sol:`截距式：${fr(X,nh(a))} + ${fr(Y,nh(b))} = 1<br>兩邊同乘 ${par(a*b)}：${terms([[b,X],[a,Y]])} = ${nh(a*b)}<br>移項得 <b>${LH(...L)}</b>`,ref:REF.s22b,
+    solFig:lineSVG({lines:[{l:L,cls:0}],points:[{x:a,y:0,t:`(${a},0)`},{x:0,y:b,t:`(0,${b})`}]}),meta:{a,b}}}};
+T.median={name:'三角形的中線',gen(){
+  let A,B,C;
+  if(true){A=[-1,-2];B=[3,2];C=[4,2]}else{
+    for(;;){const D=[R(-3,3),R(-3,3)];let u,v;do{u=R(-3,3);v=R(-3,3)}while(u===0&&v===0);
+      A=[D[0]+u,D[1]+v];B=[D[0]-u,D[1]-v];C=[R(-5,5),R(-5,5)];
+      if(C[0]===D[0]||C[1]===D[1])continue;if((B[0]-A[0])*(C[1]-A[1])-(B[1]-A[1])*(C[0]-A[0])===0)continue;break}}
+  const D=[(A[0]+B[0])/2,(A[1]+B[1])/2];const L=thru(C[0],C[1],D[0],D[1]);const [a,b,c]=normL(...L);
+  const {options,answer}=buildChoices(LC(L),[LC([b,a,c]),LC([a,-b,-c]),LC(thru(...C,...A)),LC([b,-a,c])],()=>LC([a,b,c+RNZ(-5,5)]));
+  const m=new F(C[1]-D[1],C[0]-D[0]);
+  return {source:'試卷 單選 1',prompt:`已知 △ABC 的三頂點為 A${pt(...A)}、B${pt(...B)}、C${pt(...C)}，且 D 為 ${ov('AB')} 中點，則中線 ${ov('CD')} 的直線方程式為何？`,type:'choice',options,answer,
+    hint:`分三步：<br>① 中點公式求 D：D = (${fr('<i>x</i><sub>1</sub> + <i>x</i><sub>2</sub>','2')}, ${fr('<i>y</i><sub>1</sub> + <i>y</i><sub>2</sub>','2')})<br>② 用 C、D 兩點求斜率<br>③ 點斜式寫出直線`,
+    sol:`① D = (${fr(`${nh(A[0])} + ${par(B[0])}`,'2')}, ${fr(`${nh(A[1])} + ${par(B[1])}`,'2')}) = ${pt(...D)}<br>② 斜率 m = ${fr(`${nh(C[1])} ${MI} ${par(D[1])}`,`${nh(C[0])} ${MI} ${par(D[0])}`)} = ${nh(m)}<br>③ 點斜式：${minusH(Y,D[1])} = ${nh(m)}(${minusH(X,D[0])})，整理得 <b>${LH(...L)}</b>`,
+    ref:REF.s22b,solFig:lineSVG({polys:[[A,B,C].map(p=>({x:p[0],y:p[1]}))],lines:[{l:L,cls:0}],points:[{x:A[0],y:A[1],t:'A'},{x:B[0],y:B[1],t:'B'},{x:C[0],y:C[1],t:'C'},{x:D[0],y:D[1],t:'D'}]}),meta:{A,B,C,line:L}}}};
+T.bisector={name:'垂直平分線',gen(){
+  let A,B;if(true){A=[2,4];B=[4,2]}else{const M=[R(-3,3),R(-3,3)];let u,v;do{u=R(-3,3);v=R(-3,3)}while(u===0&&v===0);A=[M[0]+u,M[1]+v];B=[M[0]-u,M[1]-v]}
+  const M=[(A[0]+B[0])/2,(A[1]+B[1])/2];const dx=B[0]-A[0],dy=B[1]-A[1];const L=[dx,dy,-(dx*M[0]+dy*M[1])];
+  let sol=`① ${ov('AB')} 中點 M = ${pt(...M)}<br>`;
+  if(dy===0)sol+=`② A、B 的 ${Y} 坐標相同，${ov('AB')} 是水平線，所以垂直平分線是<b>鉛直線</b> ${X} = ${nh(M[0])}<br>即 <b>${LH(...L)}</b>`;
+  else if(dx===0)sol+=`② A、B 的 ${X} 坐標相同，${ov('AB')} 是鉛直線，所以垂直平分線是<b>水平線</b> ${Y} = ${nh(M[1])}<br>即 <b>${LH(...L)}</b>`;
+  else{const m=new F(dy,dx),mp=new F(-dx,dy);sol+=`② ${ov('AB')} 斜率 = ${fr(nh(dy),nh(dx))} = ${nh(m)}，垂直線斜率 = ${nh(mp)}（相乘 = ${MI}1）<br>③ 點斜式：${minusH(Y,M[1])} = ${nh(mp)}(${minusH(X,M[0])})，整理得 <b>${LH(...L)}</b>`}
+  return {source:'試卷 計算 2',prompt:`設 A${pt(...A)} 與 B${pt(...B)} 為坐標平面上的兩點，求 ${ov('AB')} 的垂直平分線方程式。`,type:'line',answer:L,
+    hint:`垂直平分線有兩個條件：<br>① 通過 ${ov('AB')} 的<b>中點</b><br>② 和 ${ov('AB')} <b>垂直</b>（斜率相乘 = ${MI}1）<br>先求中點與斜率，再用點斜式。`,
+    sol,ref:REF.s22b,solFig:lineSVG({lines:[{l:thru(...A,...B),cls:1},{l:L,cls:0}],points:[{x:A[0],y:A[1],t:'A'},{x:B[0],y:B[1],t:'B'},{x:M[0],y:M[1],t:'M'}]}),meta:{A,B}}}};
+
+// ---------- 關卡 3 ----------
+T.interceptsOf={name:'求 x、y 截距',gen(){
+  let a,b,c;if(true){a=3;b=-2;c=-12}else{a=RNZ(-6,6);b=RNZ(-6,6);c=RNZ(-12,12)}
+  const xi=new F(-c,a),yi=new F(-c,b);
+  return {source:'試卷 填充 4',prompt:`求直線 ${lineH(a,b,c)} 的 ${X} 截距與 ${Y} 截距。`,type:'nums',fields:[`${X} 截距`,`${Y} 截距`],answer:[xi,yi],
+    hint:`・${X} 截距：直線和 ${X} 軸交點的 ${X} 坐標 → <b>令 ${Y} = 0</b>，解出 ${X}<br>・${Y} 截距：直線和 ${Y} 軸交點的 ${Y} 坐標 → <b>令 ${X} = 0</b>，解出 ${Y}`,
+    sol:`令 ${Y} = 0：${terms([[a,X],[c,'']])} = 0 → ${X} = <b>${nh(xi)}</b>（${X} 截距）<br>令 ${X} = 0：${terms([[b,Y],[c,'']])} = 0 → ${Y} = <b>${nh(yi)}</b>（${Y} 截距）`,ref:REF.s22b,meta:{a,b,c}}}};
+const PY=[[3,4],[4,3],[5,12],[12,5],[6,8],[8,6]];
+function pyLine(){let [a,b]=pick(PY);if(chance(.5))b=-b;if(true){a=-a;b=-b}return [a,b]}
+T.dist={name:'點到直線的距離',gen(){
+  let a,b,c,p,q,form;
+  if(true){a=3;b=-4;c=-2;p=-2;q=3;form='rhs'}else{form=chance(.5)?'rhs':'zero';let t=0;
+    for(;;){[a,b]=pyLine();p=R(-6,6);q=R(-6,6);c=R(-20,20);const h=Math.round(Math.hypot(a,b));const v=Math.abs(a*p+b*q+c);if(v>0&&(v%h===0||t++>60))break}}
+  const h=Math.round(Math.hypot(a,b));const v=Math.abs(a*p+b*q+c);const ans=new F(v,h);
+  const eq=form==='rhs'?`${terms([[a,X],[b,Y]])} = ${nh(-c)}`:lineH(a,b,c);
+  return {source:'試卷 填充 8',prompt:`求點 P${pt(p,q)} 到直線 L：${eq} 的距離。`,type:'num',answer:ans,
+    hint:`點 (${X}<sub>0</sub>, ${Y}<sub>0</sub>) 到直線 a${X} + b${Y} + c = 0 的距離：<br>d = ${fr(`| a${X}<sub>0</sub> + b${Y}<sub>0</sub> + c |`,'√(a² + b²)')}<br>⚠ 先把直線移項成「= 0」的形式，再找 a、b、c。`,
+    sol:`${form==='rhs'?`先移項：L 為 ${lineH(a,b,c)}<br>`:''}d = ${fr(`| ${nh(a)}×${par(p)} + ${par(b)}×${par(q)} + ${par(c)} |`,`√(${par(a)}² + ${par(b)}²)`)} = ${fr(v,`√${a*a+b*b}`)} = ${fr(v,h)} = <b>${nh(ans)}</b>`,
+    ref:REF.s22c,meta:{a,b,c,p,q}}}};
+T.triArea={name:'三角形面積（點到直線距離）',gen(){
+  let a,b,c,p,q,Lg;
+  if(true){a=3;b=-4;c=-10;p=0;q=0;Lg=5}else{let t=0;
+    for(;;){[a,b]=pyLine();p=R(-4,4);q=R(-4,4);c=R(-25,25);const h=Math.round(Math.hypot(a,b));const v=Math.abs(a*p+b*q+c);if(v>0&&v%h===0&&v/h<=6)break;if(t++>300){a=3;b=-4;c=-10;p=0;q=0;break}}
+    Lg=pick([3,4,5,6,7,8,10])}
+  const h=Math.round(Math.hypot(a,b));const d=new F(Math.abs(a*p+b*q+c),h);const area=d.mul(Lg).div(2);
+  const {options,answer}=buildChoices(NC(area),[NC(d),NC(d.mul(Lg)),NC(d.mul(2*Lg))],()=>NC(area.add(RNZ(-3,3))));
+  return {source:'試卷 單選 4',prompt:`設 A 點坐標為 ${pt(p,q)}，且 B、C 兩點在直線 L：${terms([[a,X],[b,Y]])} = ${nh(-c)} 上，若 ${ov('BC')} 的長為 ${Lg}，則 △ABC 的面積為何？`,type:'choice',options,answer,
+    hint:`把 ${ov('BC')} 當底，那麼<b>高</b>就是 A 點到直線 L 的距離。<br>① 用點到直線距離公式求高 d<br>② 面積 = ${fr(1,2)} × 底 × 高`,
+    sol:`L 寫成 ${lineH(a,b,c)}<br>① 高 d = ${fr(`| ${nh(a)}×${par(p)} + ${par(b)}×${par(q)} + ${par(c)} |`,`√(${a*a+b*b})`)} = ${nh(d)}<br>② 面積 = ${fr(1,2)} × ${Lg} × ${nh(d)} = <b>${nh(area)}</b>`,ref:REF.s22c,meta:{area:nt(area)}}}};
+
+// ---------- 關卡 4 ----------
+T.minB={name:'由最小值位置求係數',gen(){
+  let h,c;if(true){h=4;c=-1}else{h=RNZ(-5,5);c=R(-6,6)}
+  const {options,answer}=buildChoices(NC(-2*h),[NC(-h),NC(h),NC(2*h)],()=>NC(RNZ(-10,10)));
+  return {source:'試卷 單選 5',prompt:`設 f(${X}) = ${X2} + b${X}${constH(c)}，且 ${X} = ${nh(h)} 時 f(${X}) 有最小值，則 b = ？`,type:'choice',options,answer,
+    hint:`二次函數 a${X2} + b${X} + c 的<b>頂點 ${X} 坐標 = ${MI}${fr('b','2a')}</b>（可由配方法得到）。<br>a > 0 時，頂點就是最低點，最小值發生在頂點。`,
+    sol:`這裡 a = 1，頂點 ${X} 坐標 = ${MI}${fr('b','2×1')} = ${MI}${fr('b','2')}<br>令 ${MI}${fr('b','2')} = ${nh(h)} → b = <b>${nh(-2*h)}</b>`,ref:REF.s23c,meta:{h}}}};
+T.wrongStmt={name:'y = ax² + k 的性質判斷',noShuffle:true,gen(){
+  let a,k,w,vk;
+  if(true){a=3;k=2;w='vertex';vk=3}else{a=pick([1,2,3,-1,-2,-3]);k=R(-5,5);w=pick(['vertex','axis','open']);vk=k+pick([1,-1,2])}
+  const up=a>0;
+  const opts=['圖形為拋物線',w==='vertex'?`頂點坐標為 ${pt(0,vk)}`:`頂點坐標為 ${pt(0,k)}`,w==='axis'?`圖形對稱於 ${X} 軸`:`圖形對稱於 ${Y} 軸`,
+    `圖形開口向${(w==='open')!==up?'上':'下'}`];
+  const answer={vertex:1,axis:2,open:3}[w];
+  return {source:'試卷 單選 6',prompt:`設二次曲線 ${Y} = ${polyH(a,0,k)}，則下列何者<u>錯誤</u>？`,type:'choice',options:opts,answer,
+    hint:`${Y} = a${X2} + k 是把 ${Y} = a${X2} 上下平移 k 單位：<br>・頂點 (0, k)<br>・對稱軸是 ${Y} 軸（${X} = 0）<br>・a &gt; 0 開口向上，a &lt; 0 開口向下`,
+    sol:`${Y} = ${polyH(a,0,k)} 是拋物線，頂點 ${pt(0,k)}，對稱於 ${Y} 軸，a = ${nh(a)} ${up?'&gt; 0 開口向上':'&lt; 0 開口向下'}。<br>所以錯誤的是：<b>${opts[answer]}</b>`,
+    solFig:parabolaSVG(a,0,k,{labels:[{x:0,y:k,t:`(0, ${k})`}]}),ref:REF.s23b}}};
+T.extremeCoef={name:'由極值位置求係數',gen(){
+  let A,h,c;if(true){A=2;h=-1;c=3}else{A=pick([1,2,3,-1,-2]);h=RNZ(-4,4);c=R(-5,5)}
+  const b=-2*A*h;
+  return {source:'試卷 填充 10',prompt:`已知二次函數 f(${X}) = ${terms([[A,X2]])} + ${V('a')}${X}${constH(c)} 在 ${X} = ${nh(h)} 時有${A>0?'最小值':'最大值'}，求 ${V('a')} 之值。`,type:'num',answer:new F(b),
+    hint:`${A>0?'最小值':'最大值'}發生在<b>頂點</b>。<br>頂點 ${X} 坐標 = ${MI}${fr('（一次項係數）','2 ×（二次項係數）')}`,
+    sol:`頂點 ${X} 坐標 = ${MI}${fr(V('a'),`2×${par(A)}`)}<br>令它等於 ${nh(h)}：${V('a')} = ${MI}2×${par(A)}×${par(h)} = <b>${nh(b)}</b>`,ref:REF.s23c,meta:{A,h,b}}}};
+T.vertex={name:'配方法求頂點',gen(){
+  let a,h,k;if(true){a=2;h=1;k=1}else{a=pick([1,1,2,3,-1,-2]);h=RNZ(-4,4);k=R(-5,5)}
+  const b=-2*a*h,c=a*h*h+k;const A=coefH(a);
+  const sol=`f(${X}) = ${polyH(a,b,c)}<br>= ${A}(${polyH(1,-2*h,0)})${constH(c)}<br>= ${A}[(${minusH(X,h)})<sup>2</sup> ${MI} ${h*h}]${constH(c)}<br>= ${A}(${minusH(X,h)})<sup>2</sup>${constH(k)}<br>頂點坐標為 <b>${pt(h,k)}</b>`;
+  return {source:'試卷 填充 9',prompt:`試利用配方法找出二次函數 f(${X}) = ${polyH(a,b,c)} 的頂點坐標。`,type:'nums',fields:['頂點 x 坐標','頂點 y 坐標'],answer:[new F(h),new F(k)],
+    hint:`<b>配方法</b>：把 f(${X}) 寫成 a(${X} ${MI} h)² + k 的形式，頂點就是 (h, k)。<br>步驟：先把 a 提出來 → 括號內補上「一次項係數一半的平方」再減掉。<br>⚠ (${X} ${MI} 1)² 的頂點是 ${X} = 1，(${X} + 1)² 的頂點是 ${X} = ${MI}1。`,
+    sol,solFig:parabolaSVG(a,b,c,{labels:[{x:h,y:k,t:`(${h}, ${k})`,dy:a>0?16:-8}]}),ref:REF.s23c,meta:{a,b,c}}}};
+T.countX={name:'判別式判斷交點數',gen(){
+  let a,b,c;
+  if(true){a=1;b=5;c=6}else{const t=pick(['2','1','0']);
+    if(t==='2'){a=pick([1,1,2,-1]);let p=R(-5,5),q;do{q=R(-5,5)}while(q===p);b=-a*(p+q);c=a*p*q}
+    else if(t==='1'){a=pick([1,1,2,-1]);const p=RNZ(-4,4);b=-2*a*p;c=a*p*p}
+    else{a=pick([1,1,2,-1]);const h=R(-3,3),k=(a>0?1:-1)*R(1,5);b=-2*a*h;c=a*h*h+k}}
+  const D=b*b-4*a*c;const n=D>0?2:D===0?1:0;
+  const opts=['0 個','1 個','2 個'];
+  return {source:'試卷 填充 11',prompt:`判斷二次函數 f(${X}) = ${polyH(a,b,c)} 的圖形與 ${X} 軸有幾個交點？`,type:'choice',options:opts,answer:n,noShuffle:true,
+    hint:`用<b>判別式</b> D = b² ${MI} 4ac：<br>・D &gt; 0 → 2 個交點<br>・D = 0 → 1 個交點（相切）<br>・D &lt; 0 → 沒有交點`,
+    sol:`a = ${nh(a)}，b = ${nh(b)}，c = ${nh(c)}<br>D = ${par(b)}² ${MI} 4×${par(a)}×${par(c)} = ${nh(D)}${D>0?'，D &gt; 0':D===0?'，D = 0':'，D &lt; 0'}<br>所以有 <b>${n} 個</b>交點。`,
+    solFig:parabolaSVG(a,b,c),ref:REF.s24a,meta:{D}}}};
+T.rootsPts={name:'求與 x 軸的交點',gen(){
+  let p,q;if(true){p=5;q=-2}else{p=RNZ(-6,6);do{q=RNZ(-6,6)}while(q===p)}
+  const [s,t]=[Math.min(p,q),Math.max(p,q)];const P=(u,v,ax)=>{const[a1,a2]=[Math.min(u,v),Math.max(u,v)];return {k:ax+a1+','+a2,h:ax==='x'?`${pt(a1,0)}、${pt(a2,0)}`:`${pt(0,a1)}、${pt(0,a2)}`}};
+  const {options,answer}=buildChoices(P(s,t,'x'),[P(-s,-t,'x'),P(s,t,'y'),P(s,-t,'x'),P(-s,t,'x')],()=>P(RNZ(-6,6),RNZ(-6,6),'x'));
+  const b=-(p+q),c=p*q;
+  return {source:'試卷 填充 12',prompt:`求二次函數 f(${X}) = ${polyH(1,b,c)} 與 ${X} 軸的交點。`,type:'choice',options,answer,
+    hint:`與 ${X} 軸的交點 → 那些點的 ${Y} 坐標 = 0 → <b>令 f(${X}) = 0</b>，用因式分解（十字交乘）解出 ${X}。<br>答案要寫成「點」：(${X}, 0)。`,
+    sol:`令 ${polyH(1,b,c)} = 0<br>因式分解：(${minusH(X,s)})(${minusH(X,t)}) = 0<br>${X} = ${nh(s)} 或 ${X} = ${nh(t)}<br>交點為 <b>${pt(s,0)}、${pt(t,0)}</b>`,
+    solFig:parabolaSVG(1,b,c,{labels:[{x:s,y:0,t:`${s}`,dy:16},{x:t,y:0,t:`${t}`,dy:16}]}),ref:REF.s24b,meta:{s,t}}}};
+T.axSq={name:'y = ax² 的圖形性質',gen(v=0){
+  const mini=(a,pts)=>`<div class="mini"><div class="cap">f(${X}) = ${polyH(a,0,0)}</div>${parabolaSVG(a,0,0,{labels:pts.map(p=>({x:p[0],y:p[1],t:`(${p[0]}, ${p[1]})`,dy:a>0?-6:14}))})}</div>`;
+  const fig=`<div class="minis">${mini(1,[[-2,4],[2,4]])}${mini(2,[[-2,8],[2,8]])}${mini(-2,[[-2,-8],[2,-8]])}</div>`;
+  const lead=`觀察下面 f(${X}) = ${X2}、f(${X}) = 2${X2}、f(${X}) = ${MI}2${X2} 的圖形。對於二次函數 f(${X}) = a${X2}（a ≠ 0）：<br>`;
+  const S=[
+    [`f(${X}) = a${X2} 的圖形為何？`,['拋物線','直線','圓','雙曲線'],`三個圖形都是左右對稱的 U 形曲線，稱為<b>拋物線</b>。`],
+    [`f(${X}) = a${X2} 的頂點坐標為何？`,['(0, 0)','(a, 0)','(0, a)','(1, a)'],`三個圖形的最低點（或最高點）都在原點，頂點為 <b>(0, 0)</b>。`],
+    [`f(${X}) = a${X2} 的圖形以哪一條線為對稱軸？`,[`${Y} 軸（${X} = 0）`,`${X} 軸（${Y} = 0）`,`直線 ${Y} = ${X}`,`直線 ${X} = a`],`例如 (${MI}2, 4) 和 (2, 4) 左右對稱，所以對稱軸是 <b>${Y} 軸</b>。`],
+    [`a 的正負決定開口向上或向下。當 a &gt; 0 時開口向＿＿；當 a &lt; 0 時開口向＿＿。`,['上；下','下；上','右；左','左；右'],`${X2}、2${X2} 的 a 為正，開口<b>向上</b>；${MI}2${X2} 的 a 為負，開口<b>向下</b>。`],
+    [`|a| 的大小決定開口的寬窄。當 |a| 值越大時，其圖形開口越＿＿？`,['窄','寬','不變','無法判斷'],`比較 ${X2} 和 2${X2}：同樣 ${X} = 2 時，2${X2} 已經到 8，比 4 高，圖形比較「瘦」，所以 |a| 越大開口越<b>窄</b>。`]];
+  const [p,opts,sol]=S[v];const all=shuffle(opts.map((h,k)=>({h,k})));
+  return {prompt:lead+p,fig,type:'choice',options:all.map(o=>o.h),answer:all.findIndex(o=>o.k===0),
+    hint:`看三個圖形的共同點：形狀、最低／最高點的位置、左右是否對稱；再比較 a 的正負和大小造成的差別。`,sol,ref:REF.s23b}}};
+
+// ---------- 關卡 5 ----------
+function ivl(lo,hi,eq){return `<span style="white-space:nowrap">${nh(lo)} ${eq?'≤':'&lt;'} ${X} ${eq?'≤':'&lt;'} ${nh(hi)}</span>`}
+function outv(lo,hi,eq){return `${X} ${eq?'≤':'&lt;'} ${nh(lo)} 或 ${X} ${eq?'≥':'&gt;'} ${nh(hi)}`}
+T.intCount={name:'不等式的整數解個數',gen(){
+  let d1,n1,d2,n2,rel;
+  if(true){d1=4;n1=-15;d2=1;n2=4;rel='<'}else{
+    for(;;){d1=pick([1,1,2,3,4]);d2=pick([1,1,2,3]);n1=R(-15,10);n2=R(-10,15);if(gcd(n1,d1)!==1||gcd(n2,d2)!==1)continue;
+      if(n1/d1>=n2/d2)continue;if(d1===1&&d2===1&&chance(.6))continue;const w=n2/d2-n1/d1;if(w<3||w>10)continue;break}
+    rel=chance(.75)?'<':'<='}
+  const r1=new F(n1,d1),r2=new F(n2,d2);const a=d1*d2,b=-(d1*n2+d2*n1),c=n1*n2;
+  const ints=[];for(let x=Math.floor(r1.val())-1;x<=Math.ceil(r2.val())+1;x++){const v=a*x*x+b*x+c;if(rel==='<'?v<0:v<=0)ints.push(x)}
+  const n=ints.length;
+  const {options,answer}=buildChoices(NC(n),[NC(n+1),NC(n-1),NC(n+2)].filter(o=>!o.k.includes('-')),()=>NC(n+R(-3,3)));
+  const eq=rel==='<=';
+  return {source:'試卷 單選 7',prompt:`滿足不等式 ${polyH(a,b,c)} ${REL[rel]} 0 的整數解共有幾個？`,type:'choice',options,answer,
+    hint:`① 因式分解（十字交乘）找出兩個根<br>② ${X2} 係數 > 0 時，「${eq?'≤':'&lt;'} 0」的解在<b>兩根之間</b><br>③ 在這個範圍內數一數有幾個整數（注意端點${eq?'要':'不'}算）`,
+    sol:`因式分解：(${terms([[d1,X],[-n1,'']])})(${terms([[d2,X],[-n2,'']])}) ${REL[rel]} 0<br>兩根為 ${nh(r1)} 與 ${nh(r2)}，解為 ${ivl(r1,r2,eq)}<br>範圍內的整數：${ints.join('、').replace(/-/g,MI)}<br>共 <b>${n} 個</b>`,
+    solFig:parabolaSVG(a,b,c,{shade:[{from:r1.val(),to:r2.val(),incFrom:eq,incTo:eq}]}),ref:REF.s24c,meta:{a,b,c,rel,n}}}};
+T.perfectSq={name:'完全平方式的不等式',noShuffle:true,gen(){
+  let h,rel;if(true){h=2;rel='<'}else{h=RNZ(-5,5);rel=pick(['<','<=','>','>='])}
+  const opts=['任意實數',`${X} ≠ ${nh(h)}`,'無解',`${X} = ${nh(h)}`];const answer={'>=':0,'>':1,'<':2,'<=':3}[rel];
+  const why={'<':`平方數不可能小於 0`,'<=':`平方數 ≥ 0，只能「= 0」，所以 ${X} ${MI} ${par(h)} = 0`,'>':`平方數 ≥ 0，只要不等於 0 就成立，所以 ${X} ≠ ${nh(h)}`,'>=':`平方數一定 ≥ 0，任何實數都成立`}[rel];
+  const sh={'<':{},'<=':{labels:[{x:h,y:0,t:`${X}=${h}`,dy:16}]},'>':{shade:[{from:-Infinity,to:Infinity}],holes:[h]},'>=':{shade:[{from:-Infinity,to:Infinity}]}}[rel];
+  return {source:'試卷 單選 8',prompt:`已知 ${polyH(1,-2*h,h*h)} ${REL[rel]} 0，求 ${X} 的範圍。`,type:'choice',options:opts,answer,
+    hint:`先看看左邊能不能寫成<b>完全平方</b>：${X2} ${MI} 2h${X} + h² = (${X} ${MI} h)²。<br>任何實數的平方都 <b>≥ 0</b>，只有在 ${X} = h 時才等於 0。`,
+    sol:`${polyH(1,-2*h,h*h)} = (${minusH(X,h)})²<br>(${minusH(X,h)})² ${REL[rel]} 0：${why}。<br>答案：<b>${opts[answer]}</b>`,solFig:parabolaSVG(1,-2*h,h*h,sh),ref:REF.s24c}}};
+T.alwaysPos={name:'判別式小於 0 的不等式',gen(){
+  let a,h,k,rel;if(true){a=2;h=1;k=1;rel='<='}else{a=pick([1,2,3]);h=RNZ(-3,3);k=R(1,5);rel=pick(['<','<=','>','>='])}
+  const b=-2*a*h,c=a*h*h+k;const D=b*b-4*a*c;const pos=rel[0]==='>';
+  const opts=['無解','任意實數',`${X} = ${nh(h)}`,`${X} ≠ ${nh(h)}`];const answer=pos?1:0;
+  return {source:'試卷 填充 13',prompt:`解一元二次不等式 ${polyH(a,b,c)} ${REL[rel]} 0。`,type:'choice',options:opts,answer,noShuffle:true,
+    hint:`先算判別式 D = b² ${MI} 4ac。<br>若 <b>D &lt; 0 且 ${X2} 係數 &gt; 0</b>，拋物線整個在 ${X} 軸上方 → 對所有 ${X}，式子的值都 &gt; 0（恆正）。`,
+    sol:`D = ${par(b)}² ${MI} 4×${nh(a)}×${par(c)} = ${nh(D)} &lt; 0，且 ${X2} 係數 ${a} &gt; 0<br>→ ${polyH(a,b,c)} 恆 &gt; 0（配方：= ${coefH(a)}(${minusH(X,h)})²${constH(k)} ≥ ${k}）<br>所以「${REL[rel]} 0」${pos?'對任何實數都成立：<b>任意實數</b>':'不可能成立：<b>無解</b>'}`,
+    solFig:parabolaSVG(a,b,c,pos?{shade:[{from:-Infinity,to:Infinity}]}:{}),ref:REF.s24c,meta:{D}}}};
+T.solveIneq={name:'解一元二次不等式',gen(){
+  let s,p,q,rel;if(true){s=-1;p=-2;q=5;rel='<'}else{s=pick([1,-1,1,-1,2,-2]);p=R(-6,5);q=R(p+1,7);rel=pick(['<','<=','>','>='])}
+  const a=s,b=-s*(p+q),c=s*p*q;const re=s<0?FLIP[rel]:rel;const inside=re[0]==='<';const eq=re.length===2;
+  const C=(ins,lo,hi,e)=>({k:(ins?'i':'o')+lo+','+hi+e,h:ins?ivl(lo,hi,e):outv(lo,hi,e)});
+  const cor=C(inside,p,q,eq);
+  const {options,answer}=buildChoices(cor,[C(!inside,p,q,eq),C(inside,-q,-p,eq),C(!inside,-q,-p,eq),C(inside,p,q,!eq)],()=>C(inside,p+RNZ(-2,2),q+RNZ(-2,2),eq));
+  let sol='';
+  if(s!==1)sol+=`兩邊同除以 ${par(s)}${s<0?'（除以負數，<b>不等號要變向</b>）':''}：${polyH(1,-(p+q),p*q)} ${REL[re]} 0<br>`;
+  sol+=`因式分解：(${minusH(X,p)})(${minusH(X,q)}) ${REL[re]} 0，兩根為 ${nh(p)}、${nh(q)}<br>「${REL[re]} 0」取兩根${inside?'<b>之間</b>':'<b>外側</b>'}：<b>${cor.h}</b>`;
+  const shade=inside?[{from:p,to:q,incFrom:eq,incTo:eq}]:[{from:-Infinity,to:p,incTo:eq},{from:q,to:Infinity,incFrom:eq}];
+  return {source:'試卷 計算 3',prompt:`解一元二次不等式 ${polyH(a,b,c)} ${REL[rel]} 0。`,type:'choice',options,answer,
+    hint:`① 若 ${X2} 係數是負的，先兩邊同乘 ${MI}1，<b>不等號要變向</b><br>② 因式分解找出兩根 α &lt; β<br>③ ${X2} 係數為正時：「&lt; 0」取兩根<b>之間</b>（α &lt; ${X} &lt; β）；「&gt; 0」取兩根<b>外側</b>（${X} &lt; α 或 ${X} &gt; β）`,
+    sol,solFig:parabolaSVG(1,-(p+q),p*q,{shade}),ref:REF.s24c,meta:{a,b,c,rel,p,q,inside,eq}}}};
+
+/* ===== 題庫（數字與試卷相同） ===== */
+const EXAM={ // 單選題沿用試卷原選項
+  median:{o:[lineH(3,2,2),lineH(3,-2,-2),lineH(2,-3,-2),lineH(2,3,2)],a:2},
+  perp:{o:[lineH(1,-2,-3),lineH(2,-1,-9),lineH(1,2,-7),lineH(2,1,-11)],a:3},
+  parallel:{o:[lineH(1,-2,0),lineH(2,-1,0),lineH(1,2,0),lineH(2,1,0)],a:0},
+  triArea:{o:['2','5','10','20'],a:1},
+  minB:{o:[nh(-8),nh(-4),'4','2'],a:0},
+  intCount:{o:['10','9','8','7'],a:3}
+};
+const QS={
+  s1a:{t:'slopeEq',v:0,n:'由直線方程式求斜率（一）'},s1b:{t:'slopeEq',v:1,n:'由直線方程式求斜率（二）'},s1c:{t:'slopeEq',v:2,n:'由直線方程式求斜率（三）'},s1d:{t:'slopeEq',v:3,n:'由直線方程式求斜率（四）'},
+  par:{t:'parallel'},perp:{t:'perp'},cPar:{t:'paraPerpCalc',v:'par',n:'寫出平行線方程式'},cPerp:{t:'paraPerpCalc',v:'perp',n:'寫出垂直線方程式'},
+  median:{t:'median'},ptSlope:{t:'ptSlope'},special:{t:'special'},xint:{t:'slopeXint'},yint:{t:'slopeYint'},ints2:{t:'intercepts2'},bis:{t:'bisector'},
+  intOf:{t:'interceptsOf'},dist:{t:'dist'},area:{t:'triArea'},
+  minB:{t:'minB'},wrong:{t:'wrongStmt'},ext:{t:'extremeCoef'},vtx:{t:'vertex'},cnt:{t:'countX'},roots:{t:'rootsPts'},
+  ax0:{t:'axSq',v:0,n:'y = ax² 的圖形形狀'},ax1:{t:'axSq',v:1,n:'y = ax² 的頂點'},ax2:{t:'axSq',v:2,n:'y = ax² 的對稱軸'},ax3:{t:'axSq',v:3,n:'y = ax² 的開口方向'},ax4:{t:'axSq',v:4,n:'y = ax² 的開口寬窄'},
+  intC:{t:'intCount'},sq:{t:'perfectSq'},pos:{t:'alwaysPos'},ineq:{t:'solveIneq'}
+};
+const STAGES=[
+  {id:1,name:'斜率與平行垂直',sub:'斜率、平行線、垂直線',ref:'課本 2-1、2-2',pool:['s1a','s1b','s1c','s1d','par','perp','cPar','cPerp']},
+  {id:2,name:'直線方程式',sub:'點斜式、斜截式、截距式、中線、垂直平分線',ref:'課本 2-2',pool:['median','ptSlope','special','xint','yint','ints2','bis']},
+  {id:3,name:'截距與距離',sub:'x、y 截距，點到直線距離',ref:'課本 2-2',pool:['intOf','dist','area']},
+  {id:4,name:'二次函數圖形',sub:'開口、頂點、配方法、判別式、交點',ref:'課本 2-3、2-4',pool:['ax0','ax1','ax2','ax3','ax4','wrong','minB','ext','vtx','cnt','roots']},
+  {id:5,name:'一元二次不等式',sub:'整數解、完全平方、恆正、解不等式',ref:'課本 2-4',pool:['intC','sq','pos','ineq']},
+  {id:6,name:'魔王關',sub:'全部範圍隨機抽 10 題',ref:'第 2 章全範圍',boss:true,pool:Object.keys(QS),n:10}
+];
+STAGES.forEach(s=>{if(!s.n)s.n=s.pool.length});
+for(const k in QS)if(!QS[k].n)QS[k].n=T[QS[k].t].name;
+function makeQ(qid){const d=QS[qid];const q=T[d.t].gen(d.v);q.tid=qid;q.tname=d.n;
+  const ex=EXAM[d.t];if(ex){const all=shuffle(ex.o.map((h,k)=>({h,k})));q.options=all.map(o=>o.h);q.answer=all.findIndex(o=>o.k===ex.a)}
+  return q}
+function drawSet(pool,n){return shuffle(pool).slice(0,n)}
+
+</script>
+<script>
+/* ===== 儲存 ===== */
+const KEY='mathB-q2-quest-v1';
+let DB={last:null,users:{}};
+function load(){try{const s=localStorage.getItem(KEY);if(s)DB=JSON.parse(s)}catch(e){}if(!DB.users)DB.users={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}}
+load();
+let U=null,UK=null;
+/* ===== Google 表單 ===== */
+const FORM='https://docs.google.com/forms/d/e/1FAIpQLSf-agWbUm6P65N9I4KgfL82rJ8YmYjbQfgBVnxObPwg2QOe3Q/viewform';
+const ENT={cls:1502671496,seat:1748030900,name:224564456,clears:717401937,stars:2087988174,n:311558951,rate:1052280047,min:562735144,detail:1823390345,code:1346378254};
+const SALT='tdjc-mathB-115-1-q2';
+function fnv(s){let h=0x811c9dc5;for(const ch of s){h^=ch.codePointAt(0);h=Math.imul(h,0x01000193)>>>0}return h>>>0}
+function vcode(f){const s=[f.cls,f.seat,f.name,f.clears,f.stars,f.n,f.rate,f.min].map(x=>String(x).trim()).join('|')+'|'+SALT;
+  return (fnv(s).toString(36)+fnv(SALT+s).toString(36)).toUpperCase().slice(0,8)}
+function summary(){const clears=[1,2,3,4,5,6].filter(i=>(U.stages[i]||{}).stars>0).length;
+  const stars=STAGES.reduce((s,st)=>s+((U.stages[st.id]||{}).stars||0),0);const rate=U.tot.n?Math.round(U.tot.first/U.tot.n*100):0;
+  const min=Math.floor((U.time||0)/60);
+  const detail=STAGES.map(st=>{const p=U.stages[st.id]||{};const nm=st.boss?'魔王關':'第'+st.id+'關';return p.stars?`${nm}${'★'.repeat(p.stars)}${'☆'.repeat(3-p.stars)}(${p.best}分/挑戰${p.plays}次)`:`${nm}未過${p.plays?`(挑戰${p.plays}次)`:''}`}).join('；')
+    +'｜待複習：'+(Object.keys(U.wrong).map(t=>T[t].name).join('、')||'無');
+  const f={cls:U.cls,seat:U.seat,name:U.name,clears,stars,n:U.tot.n,rate,min,detail};f.code=vcode(f);return f}
+function formURL(){const f=summary();return FORM+'?usp=pp_url&'+Object.keys(ENT).map(k=>'entry.'+ENT[k]+'='+encodeURIComponent(f[k])).join('&')}
+function submitLinkH(label='📤 繳交紀錄給老師'){return `<a class="btn accent" id="formLink" href="${esc(formURL())}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">${label}</a>`}
+
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+const SCREENS=['login','map','play','result','wrongbook','record','check'];
+function show(id){SCREENS.forEach(s=>$('#'+s).classList.toggle('hidden',s!==id));window.scrollTo(0,0)}
+const isTeacher=()=>U&&U.seat==='0';
+
+/* ===== 登入 ===== */
+if(DB.last){$('#fCls').value=DB.last.cls||'';$('#fSeat').value=DB.last.seat||'';$('#fName').value=DB.last.name||''}
+$('#loginForm').addEventListener('submit',e=>{e.preventDefault();
+  const cls=$('#fCls').value.trim(),seat=$('#fSeat').value.trim().replace(/[０-９]/g,d=>'０１２３４５６７８９'.indexOf(d)),name=$('#fName').value.trim();
+  if(!cls||!seat||!name){$('#loginErr').textContent='班級、座號、姓名都要填喔！';return}
+  if(!/^\d{1,3}$/.test(seat)){$('#loginErr').textContent='座號請輸入數字。';return}
+  $('#loginErr').textContent='';
+  UK=cls+'|'+(+seat)+'|'+name;
+  if(!DB.users[UK])DB.users[UK]={cls,seat:String(+seat),name,stages:{},wrong:{},tot:{n:0,first:0,second:0},hist:[]};
+  U=DB.users[UK];DB.last={cls,seat:String(+seat),name};save();renderMap();});
+$('#logoutBtn').onclick=()=>{U=null;UK=null;$('#userchip').classList.add('hidden');show('login')};
+
+/* ===== 地圖 ===== */
+const starsH=(n,max=3)=>{let s='';for(let i=0;i<max;i++)s+=i<n?'★':'<span class="off">★</span>';return s};
+function unlocked(st){if(isTeacher())return true;if(st.id===1)return true;if(st.boss)return [1,2,3,4,5].every(i=>U.stages[i]&&U.stages[i].stars>0);const p=U.stages[st.id-1];return !!(p&&p.stars>0)}
+function renderMap(){
+  $('#userchip').innerHTML=`${esc(U.cls)} <b>${esc(U.seat)} 號 ${esc(U.name)}</b>`;$('#userchip').classList.remove('hidden');
+  $('#hello').textContent=isTeacher()?'闖關地圖（教師預覽：全部解鎖）':`${U.name}，選一關開始吧！`;
+  const totStars=STAGES.reduce((s,st)=>s+((U.stages[st.id]||{}).stars||0),0);
+  const rate=U.tot.n?Math.round(U.tot.first/U.tot.n*100):0;const wc=Object.keys(U.wrong).length;
+  $('#stats').innerHTML=`<span class="chip">總星數 <b>${totStars} / ${STAGES.length*3}</b></span><span class="chip">累計作答 <b>${U.tot.n}</b> 題</span><span class="chip">一次答對率 <b>${rate}%</b></span><span class="chip">錯題本 <b>${wc}</b> 種題型</span><span class="chip">練習時間 <b>${Math.floor((U.time||0)/60)}</b> 分鐘</span>`;
+  $('#path').innerHTML=STAGES.map(st=>{const p=U.stages[st.id]||{};const ok=unlocked(st);
+    return `<div class="stage ${st.boss?'boss':''} ${p.stars>0?'cleared':''} ${ok?'':'locked'}">
+      <div class="num">${st.boss?'👑':st.id}</div>
+      <div><h3>${st.boss?'':'第 '+st.id+' 關・'}${st.name}</h3><div class="sub">${st.sub}｜${st.ref}</div>
+        <div><span class="stars">${starsH(p.stars||0)}</span>${p.best!=null?`<span class="muted" style="font-size:.82rem">　最高 ${p.best} 分</span>`:''}</div></div>
+      <div class="act">${ok?`<button class="btn ${p.stars>0?'ghost':'accent'}" data-st="${st.id}">${p.stars>0?'再挑戰':'開始'}</button>`:`<div class="lockmsg">🔒 ${st.boss?'完成第 1～5 關解鎖':'完成上一關解鎖'}</div>`}</div></div>`}).join('');
+  document.querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>startStage(+b.dataset.st));
+  $('#wrongBtn').textContent=`📕 錯題本（${wc}）`;
+  $('#formSlot').innerHTML=isTeacher()?'':submitLinkH();$('#checkBtn').classList.toggle('hidden',!isTeacher());
+  show('map');
+}
+
+/* ===== 遊戲流程 ===== */
+let G=null;
+function startStage(id){const st=STAGES.find(s=>s.id===id);
+  G={mode:'stage',st,tids:drawSet(st.pool,st.n),i:0,hearts:3,score:0,res:[]};nextQ()}
+function startReview(){const tids=shuffle(Object.keys(U.wrong)).slice(0,10);if(!tids.length)return;
+  G={mode:'review',st:{name:'錯題重練'},tids,i:0,hearts:Infinity,score:0,res:[]};nextQ()}
+function nextQ(){
+  if(G.i>=G.tids.length||G.hearts<=0)return finish();
+  G.q=makeQ(G.tids[G.i]);G.tries=0;G.done=false;G.t0=Date.now();renderQ();show('play');
+}
+function heartsH(pop){if(G.mode==='review')return '<span class="muted" style="font-size:.9rem">練習模式</span>';let s='';for(let i=0;i<3;i++)s+=`<span class="${i<G.hearts?'':'lost'} ${pop&&i===G.hearts?'pop':''}">❤️</span>`;return s}
+function renderBar(pop){
+  $('#pTitle').textContent=G.mode==='review'?'📕 錯題重練':(G.st.boss?'👑 魔王關':`第 ${G.st.id} 關・${G.st.name}`);
+  $('#hearts').innerHTML=heartsH(pop);$('#pScore').textContent=G.score+' 分';
+  $('#progBar').style.width=(G.i/G.tids.length*100)+'%';
+}
+const LETTERS='ABCD';
+function renderQ(){
+  renderBar();const q=G.q;let a='';
+  if(q.type==='choice')a=`<div class="opts">${q.options.map((o,i)=>`<button class="opt" data-i="${i}"><span class="lt">${LETTERS[i]}</span><span>${o}</span></button>`).join('')}</div><div class="tip">點選一個答案。</div>`;
+  else if(q.type==='num')a=`<div class="ans"><span class="lbl2">答：</span><input id="in0" autocomplete="off" inputmode="text" placeholder="?">${q.allowNone?'<button class="toggle" id="noneBtn" type="button">斜率不存在</button>':''}</div><div class="tip">整數直接輸入；分數請打成 -3/2；負號用「-」。</div>`;
+  else if(q.type==='nums')a=`<div class="ans">${q.fields.map((f,i)=>`<label class="lbl2">${f}：<input id="in${i}" autocomplete="off" placeholder="?"></label>`).join('')}</div><div class="tip">分數請打成 -3/2；負號用「-」。</div>`;
+  else if(q.type==='line')a=`<div class="lineans"><input id="in0" autocomplete="off" placeholder="a"> ${X} + <input id="in1" autocomplete="off" placeholder="b"> ${Y} + <input id="in2" autocomplete="off" placeholder="c"> = 0</div><div class="tip">把答案整理成 a${X} + b${Y} + c = 0，填入三個係數（可為負數或 0，留空當 0）。<br>例：${X} ${MI} 2${Y} + 3 = 0 → 填 1、-2、3。整條式子同乘一個數也算對。</div>`;
+  $('#qcard').innerHTML=`<div class="qnum">第 ${G.i+1} 題 / 共 ${G.tids.length} 題</div>
+    <div class="tags"><span class="tag">${q.tname}</span></div>
+    <div class="prompt">${q.prompt}</div>${q.fig||''}<div id="ansArea">${a}</div>
+    ${q.type!=='choice'?'<div class="submitrow"><button class="btn accent" id="subBtn">送出答案</button><span class="err" id="inErr"></span></div>':''}
+    <div id="fb"></div>`;
+  if(q.type==='choice')document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(G.done||b.disabled)return;submit(+b.dataset.i,b)});
+  else{$('#subBtn').onclick=()=>submit();document.querySelectorAll('#ansArea input').forEach(inp=>inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submit()}}));
+    const nb=$('#noneBtn');if(nb)nb.onclick=()=>{nb.classList.toggle('on');$('#in0').disabled=nb.classList.contains('on');if($('#in0').disabled)$('#in0').value=''};
+    setTimeout(()=>{const f=$('#in0');const ae=document.activeElement;if(f&&window.innerWidth>700&&!(ae&&ae.closest&&ae.closest('#ansArea')))f.focus()},50)}
+}
+function parseNum(s){s=String(s||'').trim().replace(/[０-９]/g,d=>'０１２３４５６７８９'.indexOf(d)).replace(/[−－–—]/g,'-').replace(/／/g,'/').replace(/＋/g,'+').replace(/．/g,'.').replace(/\s+/g,'');
+  if(!s)return null;let m=s.match(/^([+-]?)(\d+)(?:\.(\d+))?$/);
+  if(m){const fp=m[3]||'';let n=parseInt(m[2]+fp,10);if(m[1]==='-')n=-n;return new F(n,10**fp.length)}
+  m=s.match(/^([+-]?)(\d+)\/([+-]?)(\d+)$/);if(m){let n=+m[2],d=+m[4];if(d===0)return null;if((m[1]==='-')!==(m[3]==='-'))n=-n;return new F(n,d)}
+  if(s==='-'||s==='+')return 'sign';return null}
+function readAnswer(){const q=G.q;$('#inErr').textContent='';document.querySelectorAll('#ansArea input').forEach(i=>i.classList.remove('bad'));
+  const bad=(i,msg)=>{const el=$('#in'+i);if(el)el.classList.add('bad');$('#inErr').textContent=msg;return undefined};
+  if(q.type==='num'){if($('#noneBtn')&&$('#noneBtn').classList.contains('on'))return 'none';const v=parseNum($('#in0').value);if(!(v instanceof F))return bad(0,'請輸入數字，分數打成 -3/2。');return v}
+  if(q.type==='nums'){const out=[];for(let i=0;i<q.fields.length;i++){const v=parseNum($('#in'+i).value);if(!(v instanceof F))return bad(i,'每一格都要填數字。');out.push(v)}return out}
+  if(q.type==='line'){const out=[];for(let i=0;i<3;i++){const raw=$('#in'+i).value.trim();let v=raw===''?new F(0):parseNum(raw);if(v==='sign')return bad(i,'係數 1 或 -1 請直接打 1 或 -1。');if(!(v instanceof F))return bad(i,'係數請輸入數字。');out.push(v)}
+    if(out[0].n===0&&out[1].n===0)return bad(0,'x 和 y 的係數不能都是 0。');return out}
+}
+function isRight(q,v){
+  if(q.type==='choice')return v===q.answer;
+  if(q.type==='num')return q.answer==='none'?v==='none':(v instanceof F&&v.eq(q.answer));
+  if(q.type==='nums')return v.every((x,i)=>x.eq(q.answer[i]));
+  if(q.type==='line'){let L=v.reduce((l,x)=>l*x.d/gcd(l,x.d),1);const ints=v.map(x=>x.n*(L/x.d));return lkey(...ints)===lkey(...q.answer)}
+}
+function correctH(q){if(q.type==='choice')return `(${LETTERS[q.answer]}) ${q.options[q.answer]}`;if(q.type==='num')return q.answer==='none'?'斜率不存在':nh(q.answer);
+  if(q.type==='nums')return q.fields.map((f,i)=>`${f} = ${nh(q.answer[i])}`).join('，');if(q.type==='line')return LH(...q.answer)}
+function solBlock(q){return `<div class="box"><div class="k">詳解</div>${q.sol}${q.solFig||''}</div><div class="ref">📖 ${q.ref}</div>`}
+function submit(choice,btn){if(G.done)return;const q=G.q;let v;
+  if(q.type==='choice')v=choice;else{v=readAnswer();if(v===undefined)return}
+  G.tries++;const ok=isRight(q,v);const fb=$('#fb');
+  if(ok){G.done=true;const pts=G.tries===1?10:5;G.score+=pts;if(btn)btn.classList.add('right');lockInputs();
+    G.res.push({q,st:G.tries===1?'first':'second'});
+    fb.innerHTML=`<div class="fb ok"><h4>${G.tries===1?'答對了！🎉':'這次對了！👍'} +${pts} 分</h4>${G.tries===1?'<button class="btn ghost small" id="solT">看詳解</button><div id="solBox" class="hidden">'+solBlock(q)+'</div>':solBlock(q)}
+      <div class="submitrow"><button class="btn" id="nextBtn">${G.i+1>=G.tids.length?'看結果':'下一題 →'}</button></div></div>`;
+    const t=$('#solT');if(t)t.onclick=()=>{$('#solBox').classList.toggle('hidden');t.textContent=$('#solBox').classList.contains('hidden')?'看詳解':'收起詳解'};
+    renderBar();
+  }else if(G.tries===1){if(btn){btn.classList.add('wrong');btn.disabled=true}
+    fb.innerHTML=`<div class="fb warn"><h4>差一點！看看提示，再試一次 💡</h4><div class="box"><div class="k">引導</div>${q.hint}</div><div class="ref">📖 可以翻 ${q.ref}</div></div>`;
+  }else{G.done=true;if(btn)btn.classList.add('wrong');lockInputs();
+    if(q.type==='choice')document.querySelector(`.opt[data-i="${q.answer}"]`).classList.add('right');
+    if(G.mode!=='review'){G.hearts--}
+    G.res.push({q,st:'wrong'});
+    fb.innerHTML=`<div class="fb bad"><h4>這題先學起來 📖${G.mode!=='review'?'（失去 1 顆心）':''}</h4><div>正確答案：<b>${correctH(q)}</b></div>${solBlock(q)}
+      <div class="submitrow"><button class="btn" id="nextBtn">${G.hearts<=0?'看結果':(G.i+1>=G.tids.length?'看結果':'下一題 →')}</button></div></div>`;
+    renderBar(true);
+  }
+  // 統計
+  if(G.done){U.time=(U.time||0)+Math.min((Date.now()-G.t0)/1000,300);const r=G.res[G.res.length-1];U.tot.n++;if(r.st==='first')U.tot.first++;if(r.st==='second')U.tot.second++;
+    if(r.st==='wrong')U.wrong[q.tid]=(U.wrong[q.tid]||0)+1;else if(G.mode==='review'&&U.wrong[q.tid]){delete U.wrong[q.tid]}
+    save();const nb=$('#nextBtn');nb.onclick=()=>{G.i++;nextQ()};setTimeout(()=>nb.scrollIntoView({behavior:'smooth',block:'center'}),60)}
+  else fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function lockInputs(){document.querySelectorAll('#ansArea input,#ansArea button,#subBtn').forEach(e=>e.disabled=true)}
+$('#quitBtn').onclick=()=>openModal('要離開這一關嗎？','這一關的進度不會保存（已答的題目仍會算進統計）。',[['繼續作答','ghost',closeModal],['離開','accent',()=>{closeModal();renderMap()}]]);
+
+function finish(){
+  const n=G.res.length,f=G.res.filter(r=>r.st==='first').length,s=G.res.filter(r=>r.st==='second').length,w=G.res.filter(r=>r.st==='wrong').length;
+  let head='',stars=0,pass=true;
+  if(G.mode==='stage'){pass=G.hearts>0&&n===G.tids.length;stars=pass?G.hearts:0;
+    const p=U.stages[G.st.id]||{stars:0,best:null,plays:0};p.plays=(p.plays||0)+1;if(pass){p.stars=Math.max(p.stars||0,stars);p.best=Math.max(p.best||0,G.score)}U.stages[G.st.id]=p;
+    U.hist.push({t:Date.now(),st:G.st.id,score:G.score,stars,pass});if(U.hist.length>200)U.hist.shift();save();
+    head=pass?`<div class="big">${G.st.boss?'👑 魔王關攻略成功！':'過關！🎉'}</div><div class="bigstars">${starsH(stars)}</div>`
+      :`<div class="big">闖關失敗 💔</div><p class="center muted">心用完了。看看下面的詳解，再挑戰一次（題目順序會重新打亂）！</p>`;
+    if(pass)confetti();
+  }else{head=`<div class="big">錯題重練完成</div><p class="center muted">答對的題型已從錯題本移除。</p>`;save()}
+  const icon={first:'✓',second:'△',wrong:'✗'};
+  const nextSt=G.mode==='stage'&&pass?STAGES.find(x=>x.id===G.st.id+1):null;
+  $('#rcard').innerHTML=`${head}
+    <div class="sumgrid"><div><b style="color:var(--ok)">${f}</b>一次答對</div><div><b style="color:var(--warn)">${s}</b>看提示後答對</div><div><b style="color:var(--bad)">${w}</b>還沒學會</div></div>
+    <p class="center">得分 <b class="score">${G.score}</b> 分</p>
+    <h3 style="font-size:1rem;margin-top:10px">題目回顧（點開看詳解）</h3>
+    <div class="rlist">${G.res.map((r,i)=>`<details class="ritem"><summary><span class="ic ${r.st}">${icon[r.st]}</span><span>${i+1}. ${r.q.tname}</span></summary><div class="body"><p>${r.q.prompt}</p><div>正確答案：<b>${correctH(r.q)}</b></div>${solBlock(r.q)}</div></details>`).join('')}</div>
+    <div class="btnrow">${G.mode==='stage'?`<button class="btn ${pass?'ghost':'accent'}" id="again">再挑戰</button>`:''}
+      ${nextSt&&unlocked(nextSt)?`<button class="btn accent" id="nextSt">前往${nextSt.boss?'魔王關':'第 '+nextSt.id+' 關'} →</button>`:''}
+      <button class="btn ${pass&&!nextSt?'accent':'ghost'}" id="toMap">回地圖</button></div>
+    ${isTeacher()?'':`<p class="center muted" style="margin-top:16px;font-size:.9rem">今天複習告一段落了嗎？記得把紀錄交給老師 👉 ${submitLinkH('📤 繳交紀錄')}</p>`}`;
+  const a=$('#again');if(a)a.onclick=()=>startStage(G.st.id);const ns=$('#nextSt');if(ns)ns.onclick=()=>startStage(nextSt.id);$('#toMap').onclick=renderMap;
+  show('result');
+}
+
+/* ===== 錯題本 ===== */
+$('#wrongBtn').onclick=()=>{const ent=Object.entries(U.wrong).sort((a,b)=>b[1]-a[1]);
+  const stOf=tid=>STAGES.find(s=>!s.boss&&s.pool.includes(tid));
+  $('#wcard').innerHTML=`<h2>📕 錯題本</h2><p class="muted">這裡記錄你「兩次都答錯」的題型。重練時答對，就會從錯題本移除。</p>
+    ${ent.length?`<div class="wlist">${ent.map(([t,c])=>`<div class="witem"><span><b>${T[t].name}</b><br><span class="muted" style="font-size:.84rem">第 ${stOf(t).id} 關・${stOf(t).name}</span></span><span class="muted">錯 ${c} 次</span></div>`).join('')}</div>`
+      :'<p class="center" style="padding:20px 0">目前沒有錯題，太厲害了！🎉</p>'}
+    <div class="btnrow"><button class="btn ghost" id="wBack">回地圖</button>${ent.length?`<button class="btn accent" id="wGo">開始錯題重練（${Math.min(10,ent.length)} 題）</button>`:''}</div>`;
+  $('#wBack').onclick=renderMap;const g=$('#wGo');if(g)g.onclick=startReview;show('wrongbook')};
+
+/* ===== 紀錄 ===== */
+function recText(){const d=new Date();const pad=n=>String(n).padStart(2,'0');
+  const lines=[`【數學B 第二次段考 複習闖關紀錄】`,`班級：${U.cls}　座號：${U.seat}　姓名：${U.name}`,''];
+  STAGES.forEach(st=>{const p=U.stages[st.id]||{};lines.push(`${st.boss?'魔王關':'第'+st.id+'關'} ${st.name}：${p.stars?'★'.repeat(p.stars)+'☆'.repeat(3-p.stars)+`（最高 ${p.best} 分）`:'尚未過關'}${p.plays?`，挑戰 ${p.plays} 次`:''}`)});
+  const rate=U.tot.n?Math.round(U.tot.first/U.tot.n*100):0;
+  lines.push('',`累計作答 ${U.tot.n} 題，一次答對 ${U.tot.first} 題（${rate}%），看提示後答對 ${U.tot.second} 題`);
+  const w=Object.keys(U.wrong).map(t=>T[t].name);lines.push(`錯題本待複習：${w.length?w.join('、'):'無'}`);const sm=summary();lines.push(`練習時間：${sm.min} 分鐘｜驗證碼：${sm.code}`);
+  lines.push(`產生時間：${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`);return lines.join('\n')}
+$('#recBtn').onclick=()=>{
+  $('#reccard').innerHTML=`<h2>📋 我的紀錄</h2><p class="muted">老師要收紀錄時，按「複製紀錄」後貼到老師指定的地方（例如 Google Classroom 或 LINE），或直接截圖。</p>
+    <div class="btnrow" style="justify-content:flex-start;margin:0 0 12px">${submitLinkH()}</div>
+    <p class="muted" style="font-size:.85rem">按「繳交紀錄給老師」會開啟 Google 表單，資料已經自動填好，<b>直接按「提交」</b>就完成了。可以多次繳交，老師看最新一筆。</p>
+    <textarea class="rec" id="recTxt" readonly>${esc(recText())}</textarea>
+    <div class="btnrow"><button class="btn ghost" id="rBack">回地圖</button><button class="btn accent" id="rCopy">複製紀錄</button><button class="btn ghost" id="rReset" style="color:var(--bad)">清除我的紀錄</button></div><div class="center err" id="rMsg" style="color:var(--ok)"></div>`;
+  $('#rBack').onclick=renderMap;
+  $('#rCopy').onclick=async()=>{const t=$('#recTxt');try{await navigator.clipboard.writeText(t.value);$('#rMsg').textContent='已複製！'}catch(e){t.focus();t.select();$('#rMsg').textContent='已選取文字，請按 Ctrl+C（手機長按）複製。'}};
+  $('#rReset').onclick=()=>openModal('確定要清除紀錄嗎？','星星、分數和錯題本都會歸零，無法復原。',[['取消','ghost',closeModal],['清除','accent',()=>{delete DB.users[UK];DB.users[UK]={cls:U.cls,seat:U.seat,name:U.name,stages:{},wrong:{},tot:{n:0,first:0,second:0},hist:[]};U=DB.users[UK];save();closeModal();renderMap()}]]);
+  show('record')};
+
+/* ===== 老師驗證 ===== */
+$('#checkBtn').onclick=()=>{
+  $('#chkcard').innerHTML=`<h2>🔍 驗證學生紀錄</h2>
+    <p class="muted">打開表單的「回覆」→「連結至試算表」，在試算表裡選取要檢查的資料列（可含標題列，從「時間戳記」欄選到「驗證碼」欄），複製後貼到下面。驗證碼不符代表資料被手動改過，或不是從遊戲送出的。</p>
+    <textarea class="rec" id="chkIn" placeholder="在這裡貼上試算表的資料列"></textarea>
+    <div class="btnrow"><button class="btn ghost" id="cBack">回地圖</button><button class="btn accent" id="cGo">開始驗證</button></div><div id="chkOut"></div>`;
+  $('#cBack').onclick=renderMap;
+  $('#cGo').onclick=()=>{const rows=$('#chkIn').value.split(/\r?\n/).map(l=>l.split('\t')).filter(c=>c.length>=11&&/^[0-9A-Z]{4,}$/.test((c[10]||'').trim()));
+    if(!rows.length){$('#chkOut').innerHTML='<p class="err">找不到資料。請確認有選到「時間戳記」到「驗證碼」共 11 欄。</p>';return}
+    let ok=0;const tr=rows.map(c=>{const f={cls:c[1],seat:c[2],name:c[3],clears:c[4],stars:c[5],n:c[6],rate:c[7],min:c[8]};const good=vcode(f)===c[10].trim();if(good)ok++;
+      return `<tr style="background:${good?'':'var(--bad-bg)'}"><td>${good?'✅':'⚠️ 不符'}</td><td>${esc(c[1])}</td><td>${esc(c[2])}</td><td>${esc(c[3])}</td><td>${esc(c[4])}/6</td><td>${esc(c[5])}/18</td><td>${esc(c[6])}</td><td>${esc(c[7])}%</td><td>${esc(c[8])}</td></tr>`}).join('');
+    $('#chkOut').innerHTML=`<p><b>共 ${rows.length} 筆，${ok} 筆驗證通過，${rows.length-ok} 筆不符。</b></p><div style="overflow-x:auto"><table class="ctab"><tr><th>驗證</th><th>班級</th><th>座號</th><th>姓名</th><th>過關</th><th>星數</th><th>作答題數</th><th>一次答對率</th><th>練習分鐘</th></tr>${tr}</table></div>`};
+  show('check')};
+
+/* ===== 小工具 ===== */
+function openModal(title,msg,btns){$('#modalCard').innerHTML=`<h3>${title}</h3><p class="muted">${msg}</p><div class="btnrow" style="justify-content:flex-end">${btns.map((b,i)=>`<button class="btn ${b[1]}" data-m="${i}">${b[0]}</button>`).join('')}</div>`;
+  btns.forEach((b,i)=>$(`[data-m="${i}"]`).onclick=b[2]);$('#modal').classList.remove('hidden')}
+function closeModal(){$('#modal').classList.add('hidden')}
+function confetti(){const c=['#e0542b','#f0b429','#2a6f97','#23865a','#1c2540'];for(let i=0;i<60;i++){const e=document.createElement('div');e.className='confetti';e.style.left=Math.random()*100+'vw';e.style.background=c[i%5];e.style.animationDuration=(1.6+Math.random()*1.6)+'s';e.style.animationDelay=Math.random()*.5+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),4000)}}
+</script>
+</body>
+</html>
