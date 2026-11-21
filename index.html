@@ -41,6 +41,7 @@ h1,h2,h3{line-height:1.3;margin:0}
 #login .hero p{margin:.4em 0 0;color:var(--muted)}
 .form{max-width:420px;margin:18px auto 0;display:grid;gap:14px}
 .form label{font-weight:700;font-size:.92rem;display:grid;gap:6px}
+.form select{appearance:auto;height:48px}
 .form input,.form select{padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-size:1rem}
 .form input:focus{outline:2px solid var(--blue);border-color:transparent}
 .err{color:var(--bad);font-size:.9rem;min-height:1.3em}
@@ -176,8 +177,7 @@ footer{text-align:center;font-size:.8rem;color:var(--muted);padding:20px}
     <div class="card">
       <form class="form" id="loginForm" autocomplete="off">
         <label>班級
-          <input id="fCls" list="clsList" placeholder="例如：畜保一" maxlength="12">
-          <datalist id="clsList"><option value="畜保一"><option value="室設一"></datalist>
+          <select id="fCls"><option value="" disabled selected>請選擇班級</option><option value="畜保一">畜保一</option><option value="室設一">室設一</option></select>
         </label>
         <label>座號<input id="fSeat" inputmode="numeric" placeholder="例如：12" maxlength="3"></label>
         <label>姓名<input id="fName" placeholder="請輸入姓名" maxlength="12"></label>
@@ -664,10 +664,11 @@ function show(id){SCREENS.forEach(s=>$('#'+s).classList.toggle('hidden',s!==id))
 const isTeacher=()=>U&&U.seat==='0';
 
 /* ===== 登入 ===== */
-if(DB.last){$('#fCls').value=DB.last.cls||'';$('#fSeat').value=DB.last.seat||'';$('#fName').value=DB.last.name||''}
+if(DB.last){if(['畜保一','室設一'].includes(DB.last.cls))$('#fCls').value=DB.last.cls;$('#fSeat').value=DB.last.seat||'';$('#fName').value=DB.last.name||''}
 $('#loginForm').addEventListener('submit',e=>{e.preventDefault();
   const cls=$('#fCls').value.trim(),seat=$('#fSeat').value.trim().replace(/[０-９]/g,d=>'０１２３４５６７８９'.indexOf(d)),name=$('#fName').value.trim();
-  if(!cls||!seat||!name){$('#loginErr').textContent='班級、座號、姓名都要填喔！';return}
+  if(!cls){$('#loginErr').textContent='請先選擇班級。';return}
+  if(!seat||!name){$('#loginErr').textContent='座號、姓名都要填喔！';return}
   if(!/^\d{1,3}$/.test(seat)){$('#loginErr').textContent='座號請輸入數字。';return}
   $('#loginErr').textContent='';
   UK=cls+'|'+(+seat)+'|'+name;
