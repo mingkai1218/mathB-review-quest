@@ -652,13 +652,15 @@ function summary(){const clears=[1,2,3,4,5,6].filter(i=>(U.stages[i]||{}).stars>
   const stars=STAGES.reduce((s,st)=>s+((U.stages[st.id]||{}).stars||0),0);const rate=U.tot.n?Math.round(U.tot.first/U.tot.n*100):0;
   const min=Math.floor((U.time||0)/60);
   const detail=STAGES.map(st=>{const p=U.stages[st.id]||{};const nm=st.boss?'魔王關':'第'+st.id+'關';return p.stars?`${nm}${'★'.repeat(p.stars)}${'☆'.repeat(3-p.stars)}(${p.best}分/挑戰${p.plays}次)`:`${nm}未過${p.plays?`(挑戰${p.plays}次)`:''}`}).join('；')
-    +'｜待複習：'+(Object.keys(U.wrong).map(t=>T[t].name).join('、')||'無');
+    +'｜待複習：'+(Object.keys(U.wrong).map(wName).filter(Boolean).join('、')||'無');
   const f={cls:U.cls,seat:U.seat,name:U.name,clears,stars,n:U.tot.n,rate,min,detail};f.code=vcode(f);return f}
 function formURL(){const f=summary();return FORM+'?usp=pp_url&'+Object.keys(ENT).map(k=>'entry.'+ENT[k]+'='+encodeURIComponent(f[k])).join('&')}
 function submitLinkH(label='📤 繳交紀錄給老師'){return `<a class="btn accent" id="formLink" href="${esc(formURL())}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">${label}</a>`}
 
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $=s=>document.querySelector(s);
+function wName(k){return QS[k]?QS[k].n:null}
+function cleanWrong(u){if(!u||!u.wrong)return;const nw={};for(const [k,c] of Object.entries(u.wrong)){if(QS[k])nw[k]=(nw[k]||0)+c;else{const q=Object.keys(QS).find(id=>QS[id].t===k);if(q)nw[q]=(nw[q]||0)+c}}u.wrong=nw}
 const SCREENS=['login','map','play','result','wrongbook','record','check'];
 function show(id){SCREENS.forEach(s=>$('#'+s).classList.toggle('hidden',s!==id));window.scrollTo(0,0)}
 const isTeacher=()=>U&&U.seat==='0';
@@ -673,7 +675,7 @@ $('#loginForm').addEventListener('submit',e=>{e.preventDefault();
   $('#loginErr').textContent='';
   UK=cls+'|'+(+seat)+'|'+name;
   if(!DB.users[UK])DB.users[UK]={cls,seat:String(+seat),name,stages:{},wrong:{},tot:{n:0,first:0,second:0},hist:[]};
-  U=DB.users[UK];DB.last={cls,seat:String(+seat),name};save();renderMap();});
+  U=DB.users[UK];cleanWrong(U);if(!U.tot)U.tot={n:0,first:0,second:0};if(!U.stages)U.stages={};DB.last={cls,seat:String(+seat),name};save();renderMap();});
 $('#logoutBtn').onclick=()=>{U=null;UK=null;$('#fSeat').value='';$('#fName').value='';$('#userchip').classList.add('hidden');show('login')};
 
 /* ===== 地圖 ===== */
@@ -806,9 +808,9 @@ function finish(){
 
 /* ===== 錯題本 ===== */
 $('#wrongBtn').onclick=()=>{const ent=Object.entries(U.wrong).sort((a,b)=>b[1]-a[1]);
-  const stOf=tid=>STAGES.find(s=>!s.boss&&s.pool.includes(tid));
+  const stOf=tid=>STAGES.find(s=>!s.boss&&s.pool.includes(tid))||{id:'?',name:''};
   $('#wcard').innerHTML=`<h2>📕 錯題本</h2><p class="muted">這裡記錄你「兩次都答錯」的題型。重練時答對，就會從錯題本移除。</p>
-    ${ent.length?`<div class="wlist">${ent.map(([t,c])=>`<div class="witem"><span><b>${T[t].name}</b><br><span class="muted" style="font-size:.84rem">第 ${stOf(t).id} 關・${stOf(t).name}</span></span><span class="muted">錯 ${c} 次</span></div>`).join('')}</div>`
+    ${ent.length?`<div class="wlist">${ent.map(([t,c])=>`<div class="witem"><span><b>${wName(t)}</b><br><span class="muted" style="font-size:.84rem">第 ${stOf(t).id} 關・${stOf(t).name}</span></span><span class="muted">錯 ${c} 次</span></div>`).join('')}</div>`
       :'<p class="center" style="padding:20px 0">目前沒有錯題，太厲害了！🎉</p>'}
     <div class="btnrow"><button class="btn ghost" id="wBack">回地圖</button>${ent.length?`<button class="btn accent" id="wGo">開始錯題重練（${Math.min(10,ent.length)} 題）</button>`:''}</div>`;
   $('#wBack').onclick=renderMap;const g=$('#wGo');if(g)g.onclick=startReview;show('wrongbook')};
@@ -819,7 +821,7 @@ function recText(){const d=new Date();const pad=n=>String(n).padStart(2,'0');
   STAGES.forEach(st=>{const p=U.stages[st.id]||{};lines.push(`${st.boss?'魔王關':'第'+st.id+'關'} ${st.name}：${p.stars?'★'.repeat(p.stars)+'☆'.repeat(3-p.stars)+`（最高 ${p.best} 分）`:'尚未過關'}${p.plays?`，挑戰 ${p.plays} 次`:''}`)});
   const rate=U.tot.n?Math.round(U.tot.first/U.tot.n*100):0;
   lines.push('',`累計作答 ${U.tot.n} 題，一次答對 ${U.tot.first} 題（${rate}%），看提示後答對 ${U.tot.second} 題`);
-  const w=Object.keys(U.wrong).map(t=>T[t].name);lines.push(`錯題本待複習：${w.length?w.join('、'):'無'}`);const sm=summary();lines.push(`練習時間：${sm.min} 分鐘｜驗證碼：${sm.code}`);
+  const w=Object.keys(U.wrong).map(wName).filter(Boolean);lines.push(`錯題本待複習：${w.length?w.join('、'):'無'}`);const sm=summary();lines.push(`練習時間：${sm.min} 分鐘｜驗證碼：${sm.code}`);
   lines.push(`產生時間：${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`);return lines.join('\n')}
 $('#recBtn').onclick=()=>{
   $('#reccard').innerHTML=`<h2>📋 我的紀錄</h2><p class="muted">老師要收紀錄時，按「複製紀錄」後貼到老師指定的地方（例如 Google Classroom 或 LINE），或直接截圖。</p>
